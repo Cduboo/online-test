@@ -19,13 +19,13 @@ public class EmployeeService {
 	private EmployeeMapper employeeMapper;
 	
 	// 직원 로그인
-	public Employee login(Employee emp) {
-		return employeeMapper.login(emp);
+	public Employee login(Employee employee) {
+		return employeeMapper.login(employee);
 	}
 	
 	// 직원 삭제
-	public int removeEmployee(int empNo) {
-		return employeeMapper.deleteEmployee(empNo);
+	public int removeEmployee(int employeeNo) {
+		return employeeMapper.deleteEmployee(employeeNo);
 	}
 	
 	// 직원 등록

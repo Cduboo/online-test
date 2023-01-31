@@ -20,30 +20,30 @@ public class EmployeeController {
 	EmployeeService employeeService;
 	
 	// 직원 로그인 
-	@GetMapping("/employee/loginEmp")
-	public String loginEmp(HttpSession session) {
+	@GetMapping("/employee/loginEmployee")
+	public String loginEmployee(HttpSession session) {
 		// 로그인 상태 체크
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp != null) {
-			return "redirect:/employee/empList";
+		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
+		if(loginEmployee != null) {
+			return "redirect:/employee/employeeList";
 		}
 		
-		return "/employee/loginEmp";
+		return "/employee/loginEmployee";
 	}
 	
-	@PostMapping("/employee/loginEmp")
-	public String loginEmp(HttpSession session, Employee emp) {
+	@PostMapping("/employee/loginEmployee")
+	public String loginEmployee(HttpSession session, Employee employee) {
 		// 로그인 상태 체크
-		Employee resultEmp = employeeService.login(emp);
-		if(resultEmp == null) { // 로그인 실패 시
+		Employee resultEmployee = employeeService.login(employee);
+		if(resultEmployee == null) { // 로그인 실패 시
 			System.out.println("로그인 실패");
-			return "redirect:/employee/loginEmp";
+			return "redirect:/employee/loginEmployee";
 		}
 		// 로그인 성공 시
 		System.out.println("로그인 성공");
-		session.setAttribute("loginEmp", resultEmp);
+		session.setAttribute("loginEmployee", resultEmployee);
 		
-		return "redirect:/employee/empList";
+		return "redirect:/employee/employeeList";
 	}
 	
 	// 직원 로그아웃
@@ -51,7 +51,7 @@ public class EmployeeController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		
-		return "redirect:/employee/loginEmp";
+		return "redirect:/employee/loginEmployee";
 	}
 	
 	
@@ -61,15 +61,15 @@ public class EmployeeController {
 
 	
 	// 직원 삭제
-	@GetMapping("/employee/removeEmp")
-	public String removeEmp(HttpSession session, @RequestParam("empNo") int empNo) {
+	@GetMapping("/employee/removeEmployee")
+	public String removeEmployee(HttpSession session, @RequestParam("employeeNo") int employeeNo) {
 		// 로그인 상태 체크
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
+		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
+		if(loginEmployee == null) {
+			return "redirect:/employee/loginEmployee";
 		}
 		
-		int row = employeeService.removeEmployee(empNo);
+		int row = employeeService.removeEmployee(employeeNo);
 		
 		if(row == 1) {
 			System.out.println("직원 삭제 성공");			
@@ -77,27 +77,27 @@ public class EmployeeController {
 			System.out.println("직원 삭제 실패");
 		}
 		
-		return "redirect:/employee/empList";
+		return "redirect:/employee/employeeList";
 	}
 	
 	// 직원 등록
-	@GetMapping("/employee/addEmp")
-	public String addEmp(HttpSession session) {
+	@GetMapping("/employee/addEmployee")
+	public String addEmployee(HttpSession session) {
 		// 로그인 상태 체크
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
+		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
+		if(loginEmployee == null) {
+			return "redirect:/employee/loginEmployee";
 		}
 		
-		return "/employee/addEmp";
+		return "/employee/addEmployee";
 	}
 	
-	@PostMapping("/employee/addEmp")
-	public String addEmp(HttpSession session, Employee employee) { // 커맨드객체, 만약 vo랑 name 같아야 됨(폼타입 vo), @RequestParam으로 받을 수 있지만 수가 많아지면 비효율적이다.
+	@PostMapping("/employee/addEmployee")
+	public String addEmployee(HttpSession session, Employee employee) { // 커맨드객체, 만약 vo랑 name 같아야 됨(폼타입 vo), @RequestParam으로 받을 수 있지만 수가 많아지면 비효율적이다.
 		// 로그인 상태 체크
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
+		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
+		if(loginEmployee == null) {
+			return "redirect:/employee/loginEmployee";
 		}
 		
 		int row = employeeService.addEmployee(employee);
@@ -108,28 +108,28 @@ public class EmployeeController {
 			System.out.println("직원 등록 실패");
 		}
 		
-		return "redirect:/employee/empList";
+		return "redirect:/employee/employeeList";
 	}
 	
 	// 직원 목록
-	@GetMapping("/employee/empList")
-	public String empList(HttpSession session, Model model 
+	@GetMapping("/employee/employeeList")
+	public String employeeList(HttpSession session, Model model 
 			// int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 			// if( ... == null ...) -> defaultValue
 			, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
 			, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage) {
 		// 로그인 상태 체크
-		Employee loginEmp = (Employee)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
-			return "redirect:/employee/loginEmp";
+		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
+		if(loginEmployee == null) {
+			return "redirect:/employee/loginEmployee";
 		}
 		
-		List<Employee> list = employeeService.getEmployeeList(currentPage, rowPerPage);
+		List<Employee> employeeList = employeeService.getEmployeeList(currentPage, rowPerPage);
 		
 		// model ...request.setAttribute("list", list);
-		model.addAttribute("list", list);
+		model.addAttribute("employeeList", employeeList);
 		model.addAttribute("currentPage", currentPage);
 		
-		return "/employee/empList";
+		return "/employee/employeeList";
 	}
 }

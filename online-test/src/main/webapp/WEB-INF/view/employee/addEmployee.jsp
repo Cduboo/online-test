@@ -3,23 +3,23 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>EMP ADD</title>
+		<title>EMPLOYEE ADD</title>
 	</head>
 	<body>
 		<h1>직원 등록</h1>
-		<form action="${pageContext.request.contextPath}/employee/addEmp" method="post">
+		<form action="${pageContext.request.contextPath}/employee/addEmployee" method="post">
 			<table border="1">
 				<tr>
 					<td>아이디</td>
-					<td><input type="text" name="empId"/></td>
+					<td><input type="text" name="employeeId"/></td>
 				</tr>
 				<tr>
 					<td>이름</td>
-					<td><input type="text" name="empName"/></td>
+					<td><input type="text" name="employeeName"/></td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<td><input type="password" name="empPw"/></td>
+					<td><input type="password" name="employeePw"/></td>
 				</tr>
 			</table>
 			<button type="submit">직원 등록</button>
