@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.EmployeeService;
+import goodee.gdj58.online.service.IdService;
 import goodee.gdj58.online.vo.Employee;
 
 @Controller
 public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
+	@Autowired
+	IdService idService; // 트랜잭션 처리 시 service단으로
 	
 	// 직원 비밀번호 수정
 	@GetMapping("/employee/modifyEmployeePw")
@@ -121,11 +124,19 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employee/addEmployee")
-	public String addEmployee(HttpSession session, Employee employee) { // 커맨드객체, 만약 vo랑 name 같아야 됨(폼타입 vo), @RequestParam으로 받을 수 있지만 수가 많아지면 비효율적이다.
+	public String addEmployee(HttpSession session, Model model, Employee employee) { // 커맨드객체, 만약 vo랑 name 같아야 됨(폼타입 vo), @RequestParam으로 받을 수 있지만 수가 많아지면 비효율적이다.
 		// 로그인 상태 체크
 		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
 		if(loginEmployee == null) {
 			return "redirect:/employee/loginEmployee";
+		}
+		
+		String idCheck = idService.getIdCheck(employee.getEmployeeId());
+		// 중복
+		if(idCheck != null) {
+			model.addAttribute("errorMsg", "중복된 ID입니다.");
+			System.out.println("중복된 직원 ID");
+			return "/employee/addEmployee";
 		}
 		
 		int row = employeeService.addEmployee(employee);
@@ -133,6 +144,7 @@ public class EmployeeController {
 		if(row == 1) {
 			System.out.println("직원 등록 성공");			
 		} else {
+			model.addAttribute("errorMsg", "system error : 직원 등록 실패");
 			System.out.println("직원 등록 실패");
 		}
 		

@@ -7,6 +7,7 @@
 	</head>
 	<body>
 		<h1>직원 등록</h1>
+		<span>${errorMsg}</span>
 		<form action="${pageContext.request.contextPath}/employee/addEmployee" method="post">
 			<table border="1">
 				<tr>
