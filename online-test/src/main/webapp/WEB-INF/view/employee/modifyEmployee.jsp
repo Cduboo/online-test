@@ -7,6 +7,13 @@
 		<title>MODIFY EMPLOYEE</title>
 	</head>
 	<body>
+		<!-- empMenu include -->
+		<div>
+			<c:import url="/WEB-INF/view/employee/inc/employeeMenu.jsp" />
+		</div>
+		
+		<h1>비밀번호 수정</h1>
+		<span>${errorMsg}</span>
 		<form action="${pageContext.request.contextPath}/employee/modifyEmployeePw" method="post">
 			<table border="1">
 				<tr>

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.EmployeeService;
@@ -37,6 +36,7 @@ public class EmployeeController {
 	
 	@PostMapping("/employee/modifyEmployeePw")
 	public String modifyEmployeePw(HttpSession session
+									, Model model
 									, @RequestParam(value = "oldPw") String oldPw 
 									, @RequestParam(value = "newPw") String newPw) {
 		// 로그인 상태 체크
@@ -47,12 +47,14 @@ public class EmployeeController {
 		
 		int row = employeeService.modifyEmployeePw(loginEmployee.getEmployeeNo(), oldPw, newPw);
 		
-		if(row == 1) {
-			System.out.println("직원 비밀번호 수정 성공");			
-		} else {
+		if(row != 1) {
 			System.out.println("직원 비밀번호 수정 실패");
+			model.addAttribute("errorMsg", "비밀번호를 확인해주세요.");
+			
+			return "/employee/modifyEmployee";
 		}
-		
+		System.out.println("직원 비밀번호 수정 성공");			
+				
 		return "redirect:/employee/logout";
 	}
 	
@@ -131,22 +133,22 @@ public class EmployeeController {
 			return "redirect:/employee/loginEmployee";
 		}
 		
+		// ID 중복 검사 (null이 아니면 중복)
 		String idCheck = idService.getIdCheck(employee.getEmployeeId());
-		// 중복
 		if(idCheck != null) {
 			model.addAttribute("errorMsg", "중복된 ID입니다.");
 			System.out.println("중복된 직원 ID");
+			
 			return "/employee/addEmployee";
 		}
 		
 		int row = employeeService.addEmployee(employee);
 		
-		if(row == 1) {
-			System.out.println("직원 등록 성공");			
-		} else {
+		if(row != 1) {
 			model.addAttribute("errorMsg", "system error : 직원 등록 실패");
 			System.out.println("직원 등록 실패");
 		}
+		System.out.println("직원 등록 성공");			
 		
 		return "redirect:/employee/employeeList";
 	}
