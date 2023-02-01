@@ -4,10 +4,19 @@
 <!-- Employee.java interface안에 적어도 되지만 유지보수? -->
 <!-- namespace: 인터페이스(EmployeeMapper) 이름 보고 xml과 합친다.-->
 <mapper namespace="goodee.gdj58.online.mapper.EmployeeMapper">
+
+	<!-- 직원 비밀번호 수정 -->
+	<update id="updateEmployeePw" parameterType="java.util.Map">
+		UPDATE employee
+		SET employee_pw = PASSWORD(#{newPw})
+		WHERE employee_no = #{employeeNo} AND employee_pw = PASSWORD(#{oldPw})
+	</update>
+
 	<!-- 직원 로그인 -->
 	<select id="login" parameterType="goodee.gdj58.online.vo.Employee" resultType="goodee.gdj58.online.vo.Employee">
 		SELECT
-			employee_id employeeId
+			employee_no employeeNo
+			, employee_id employeeId
 			, employee_name employeeName
 		FROM
 			employee

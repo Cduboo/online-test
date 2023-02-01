@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import goodee.gdj58.online.service.EmployeeService;
@@ -18,6 +19,39 @@ import goodee.gdj58.online.vo.Employee;
 public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
+	
+	// 직원 비밀번호 수정
+	@GetMapping("/employee/modifyEmployeePw")
+	public String modifyEmployeePw(HttpSession session) {
+		// 로그인 상태 체크
+		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
+		if(loginEmployee == null) {
+			return "redirect:/employee/loginEmployee";
+		}
+		
+		return "/employee/modifyEmployee";
+	}
+	
+	@PostMapping("/employee/modifyEmployeePw")
+	public String modifyEmployeePw(HttpSession session
+									, @RequestParam(value = "oldPw") String oldPw 
+									, @RequestParam(value = "newPw") String newPw) {
+		// 로그인 상태 체크
+		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
+		if(loginEmployee == null) {
+			return "redirect:/employee/loginEmployee";
+		}
+		
+		int row = employeeService.modifyEmployeePw(loginEmployee.getEmployeeNo(), oldPw, newPw);
+		
+		if(row == 1) {
+			System.out.println("직원 비밀번호 수정 성공");			
+		} else {
+			System.out.println("직원 비밀번호 수정 실패");
+		}
+		
+		return "redirect:/employee/logout";
+	}
 	
 	// 직원 로그인 
 	@GetMapping("/employee/loginEmployee")
@@ -53,12 +87,6 @@ public class EmployeeController {
 		
 		return "redirect:/employee/loginEmployee";
 	}
-	
-	
-	/*
-	 *  로그인 후에 사용가능한 기능
-	 */
-
 	
 	// 직원 삭제
 	@GetMapping("/employee/removeEmployee")

@@ -18,6 +18,16 @@ public class EmployeeService {
 	@Autowired 
 	private EmployeeMapper employeeMapper;
 	
+	// 직원 비밀번호 변경
+	public int modifyEmployeePw(int employeeNo, String oldPw, String newPw) { // service단에서 Map 가공 
+		Map<String, Object> paraMap = new HashMap<>();
+		paraMap.put("employeeNo", employeeNo);
+		paraMap.put("oldPw", oldPw);
+		paraMap.put("newPw", newPw);
+		
+		return employeeMapper.updateEmployeePw(paraMap);
+	}
+	
 	// 직원 로그인
 	public Employee login(Employee employee) {
 		return employeeMapper.login(employee);
