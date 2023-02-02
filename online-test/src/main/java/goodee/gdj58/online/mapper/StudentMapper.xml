@@ -21,7 +21,23 @@
 			, student_pw studentPw
 			, student_name studentName
 		FROM student
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				student_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
 		ORDER BY student_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select> 
+	
+	<!-- 총 학생 수 -->
+	<select id="selectStudentCount" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM student
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				student_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
+		ORDER BY student_no DESC
+	</select>
 </mapper>

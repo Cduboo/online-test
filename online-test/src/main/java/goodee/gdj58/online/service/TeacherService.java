@@ -28,12 +28,18 @@ public class TeacherService {
 	}
 	
 	// 강사 목록
-	public List<Teacher> getTeacherList(int currentPage, int rowPerPage) {
+	public List<Teacher> getTeacherList(int currentPage, int rowPerPage, String searchWord) {
 		int beginRow = (currentPage - 1) * rowPerPage;
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
 		
 		return teacherMapper.selectTeacherList(paramMap);
+	}
+	
+	// 총 강사 수
+	public int getTeacherCount(String searchWord) {
+		return teacherMapper.selectTeacherCount(searchWord);
 	}
 }

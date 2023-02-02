@@ -44,12 +44,18 @@ public class EmployeeService {
 	}
 	
 	// 직원 목록
-	public List<Employee> getEmployeeList(int currentPage, int rowPerPage) {
+	public List<Employee> getEmployeeList(int currentPage, int rowPerPage, String searchWord) {
 		int beginRow = (currentPage-1) * rowPerPage;
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("beginRow", beginRow);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("searchWord", searchWord);
 		
 		return employeeMapper.selectEmployeeList(paramMap);
+	}
+	
+	// 총 직원 수
+	public int getEmployeeCount(String searchWord) {
+		return employeeMapper.selectEmployeeCount(searchWord);
 	}
 }

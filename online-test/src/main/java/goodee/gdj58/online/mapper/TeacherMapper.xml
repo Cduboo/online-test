@@ -21,7 +21,23 @@
 			, teacher_pw teacherPw
 			, teacher_name teacherName
 		FROM teacher
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				teacher_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
 		ORDER BY teacher_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select> 
+	
+	<!-- 총 강사 수 -->
+	<select id="selectTeacherCount" parameterType="java.util.Map" resultType="Integer">
+		SELECT COUNT(*) FROM teacher 
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				teacher_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
+		ORDER BY teacher_no DESC
+	</select>
 </mapper>

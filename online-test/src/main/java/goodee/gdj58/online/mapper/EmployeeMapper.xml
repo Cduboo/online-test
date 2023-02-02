@@ -4,7 +4,7 @@
 <!-- Employee.java interface안에 적어도 되지만 유지보수? -->
 <!-- namespace: 인터페이스(EmployeeMapper) 이름 보고 xml과 합친다.-->
 <mapper namespace="goodee.gdj58.online.mapper.EmployeeMapper">
-
+	
 	<!-- 직원 비밀번호 수정 -->
 	<update id="updateEmployeePw" parameterType="java.util.Map">
 		UPDATE employee
@@ -50,8 +50,23 @@
 			, employee_id employeeId
 			, employee_name employeeName
 		FROM employee
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				employee_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
 		ORDER BY employee_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
+	<!-- 총 직원 수 -->
+	<select id="selectEmployeeCount" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM employee 
+		<where>
+			<if test="searchWord != null || searchWord != ''">
+				employee_name LIKE CONCAT('%', #{searchWord}, '%')
+			</if>
+		</where>
+		ORDER BY employee_no DESC
+	</select>
 </mapper>

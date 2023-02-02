@@ -141,14 +141,31 @@ public class EmployeeController {
 			// int currentPage = Integer.parseInt(request.getParameter("currentPage"));
 			// if( ... == null ...) -> defaultValue
 			, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
-			, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage) {
+			, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
+			, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) {
 		log.debug("\u001B[31m" + "employeeList Form");
+		log.debug("\u001B[31m" + "currentPage : " + currentPage);
+		log.debug("\u001B[31m" + "rowPerPage : " + rowPerPage);
+		log.debug("\u001B[31m" + "searchWord : " + searchWord);
 		
-		List<Employee> employeeList = employeeService.getEmployeeList(currentPage, rowPerPage);
+		List<Employee> employeeList = employeeService.getEmployeeList(currentPage, rowPerPage, searchWord);
+		int employeeCount = employeeService.getEmployeeCount(searchWord);
+		int lastPage = employeeCount / rowPerPage;
+		if(employeeCount % rowPerPage != 0) {
+			lastPage++;
+		}
+		//for문 1:1~10, 2:1~10, 3:1~10... 10: 1~10, 11: 11~20, 12:11~20, ...
+		int startPage = currentPage - (currentPage-1) % rowPerPage; 
+		int endPage = startPage + rowPerPage - 1;
 		
 		// model ...request.setAttribute("list", list);
 		model.addAttribute("employeeList", employeeList);
+		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);	
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("rowPerPage", rowPerPage);	
 		
 		return "/employee/employeeList";
 	}

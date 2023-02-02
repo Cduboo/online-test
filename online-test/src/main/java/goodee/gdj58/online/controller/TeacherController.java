@@ -74,13 +74,30 @@ public class TeacherController {
 	@GetMapping("/employee/teacher/teacherList")
 	public String getTeacherList(Model model
 									, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
-									, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage) {
+									, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
+									, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) {
 		log.debug("\u001B[31m" + "teacherList Form");
+		log.debug("\u001B[31m" + "currentPage : " + currentPage);
+		log.debug("\u001B[31m" + "rowPerPage : " + rowPerPage);
+		log.debug("\u001B[31m" + "searchWord : " + searchWord);
 		
-		List<Teacher> teacherList = teacherService.getTeacherList(currentPage, rowPerPage);
+		List<Teacher> teacherList = teacherService.getTeacherList(currentPage, rowPerPage, searchWord);
+		int teacherCount = teacherService.getTeacherCount(searchWord);
+		int lastPage = teacherCount / rowPerPage;
+		if(teacherCount % rowPerPage != 0) {
+			lastPage++;
+		}
+		//for문 1:1~10, 2:1~10, 3:1~10... 10: 1~10, 11: 11~20, 12:11~20, ...
+		int startPage = currentPage - (currentPage-1) % rowPerPage; 
+		int endPage = startPage + rowPerPage - 1;
 		
 		model.addAttribute("teacherList", teacherList);
+		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);	
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("rowPerPage", rowPerPage);	
 		
 		return "/employee/teacher/teacherList";
 	}

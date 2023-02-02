@@ -75,13 +75,30 @@ public class StudentController {
 	@GetMapping("/employee/student/studentList")
 	public String getStudentList(Model model
 									, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
-									, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage) {
+									, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
+									, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) {
 		log.debug("\u001B[31m" + "studentList Form");
+		log.debug("\u001B[31m" + "currentPage : " + currentPage);
+		log.debug("\u001B[31m" + "rowPerPage : " + rowPerPage);
+		log.debug("\u001B[31m" + "searchWord : " + searchWord);
 		
-		List<Student> studentList = studentService.getStudentList(currentPage, rowPerPage);
+		List<Student> studentList = studentService.getStudentList(currentPage, rowPerPage, searchWord);
+		int studentCount = studentService.getStudentCount(searchWord);
+		int lastPage = studentCount / rowPerPage;
+		if(studentCount % rowPerPage != 0) {
+			lastPage++;
+		}
+		//for문 1:1~10, 2:1~10, 3:1~10... 10: 1~10, 11: 11~20, 12:11~20, ...
+		int startPage = currentPage - (currentPage-1) % rowPerPage; 
+		int endPage = startPage + rowPerPage - 1;
 		
 		model.addAttribute("studentList", studentList);
+		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);	
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("rowPerPage", rowPerPage);	
 		
 		return "/employee/student/studentList";
 	}
