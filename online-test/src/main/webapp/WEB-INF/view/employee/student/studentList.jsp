@@ -13,7 +13,7 @@
 		</div>
 		
 		<h1>학생 목록</h1>
-		<a href="${pageContext.request.contextPath}/student/addStudent">학생 등록</a>
+		<a href="${pageContext.request.contextPath}/employee/student/addStudent">학생 등록</a>
 		<table border="1">
 			<tr>
 				<th>아이디</th>
@@ -24,14 +24,14 @@
 				<tr>
 					<td>${s.studentId}</td>
 					<td>${s.studentName}</td>
-					<td><a href="${pageContext.request.contextPath}/student/removeStudent?studentNo=${s.studentNo}">삭제</a></td>
+					<td><a href="${pageContext.request.contextPath}/employee/student/removeStudent?studentNo=${s.studentNo}">삭제</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 		
 		<div>
-			<a href="${pageContext.request.contextPath}/student/studentList?currentPage=${currentPage-1}">이전</a>
-			<a href="${pageContext.request.contextPath}/student/studentList?currentPage=${currentPage+1}">다음</a>
+			<a href="${pageContext.request.contextPath}/employee/student/studentList?currentPage=${currentPage-1}">이전</a>
+			<a href="${pageContext.request.contextPath}/employee/student/studentList?currentPage=${currentPage+1}">다음</a>
 		</div>
 	</body>
 </html>

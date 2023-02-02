@@ -14,7 +14,7 @@
 		
 		<h1>학생 등록</h1>
 		<span>${errorMsg}</span>
-		<form action="${pageContext.request.contextPath}/student/addStudent" method="post">
+		<form action="${pageContext.request.contextPath}/employee/student/addStudent" method="post">
 			<table border="1">
 				<tr>
 					<td>아이디</td>

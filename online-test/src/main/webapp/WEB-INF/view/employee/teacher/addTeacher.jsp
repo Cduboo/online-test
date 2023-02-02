@@ -14,7 +14,7 @@
 		
 		<h1>강사 등록</h1>
 		<span>${errorMsg}</span>
-		<form action="${pageContext.request.contextPath}/teacher/addTeacher" method="post">
+		<form action="${pageContext.request.contextPath}/employee/teacher/addTeacher" method="post">
 			<table border="1">
 				<tr>
 					<td>아이디</td>
