@@ -17,6 +17,21 @@ public class StudentService {
 	@Autowired
 	private StudentMapper studentMapper;
 	
+	// 학생 로그인
+	public Student login(Student student) {
+		return studentMapper.login(student);
+	}
+	
+	// 학생 비밀번호 수정
+	public int modifyStudentPw(int studentNo, String newPw, String oldPw) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("studentNo", studentNo);
+		paramMap.put("newPw", newPw);
+		paramMap.put("oldPw", oldPw);
+		
+		return studentMapper.modifyStudentPw(paramMap);
+	}
+	
 	// 학생 등록
 	public int addStudent(Student student) {
 		return studentMapper.insertStudent(student);

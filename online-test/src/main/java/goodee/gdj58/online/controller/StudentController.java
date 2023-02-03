@@ -2,6 +2,7 @@ package goodee.gdj58.online.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,84 @@ public class StudentController {
 	StudentService studentService;
 	@Autowired
 	IdService idService;
+	
+	// 학생 메인 페이지
+	@GetMapping("/studentMain")
+	public String getTeacherMain() {
+		log.debug("\u001B[31m" + "studentMain Form");
+		
+		return "/student/studentMain";
+	}
+	
+	// 학생 로그인
+	@GetMapping("/loginStudent")
+	public String loginStudent(HttpSession session) {
+		log.debug("\u001B[31m" + "loginStudent Form");
+		
+		if(session.getAttribute("loginStudent") != null) {
+			return "redirect:/studentMain";
+		}
+		
+		return "/student/loginStudent";
+	}
+	
+	@PostMapping("/loginStudent")
+	public String loginStudent(HttpSession session
+								, Student student) {
+		log.debug("\u001B[31m" + "loginStudent Action");
+		
+		Student resultStudent = studentService.login(student);
+		
+		if(resultStudent == null) {
+			log.debug("\u001B[31m" + "로그인 실패");
+			return "redirect:/loginStudent";
+		}
+		
+		log.debug("\u001B[31m" + "로그인 성공");
+		session.setAttribute("loginStudent", resultStudent);
+		
+		return "redirect:/studentMain";
+	}
+	
+	// 학생 로그아웃
+	@GetMapping("/student/logout")
+	public String logout(HttpSession session) {
+		log.debug("\u001B[31m" + "logoutStudent Action");
+		
+		session.invalidate();
+		log.debug("\u001B[31m" + "sessiong invalidate");
+		
+		return "redirect:/loginStudent";
+	}
+	
+	// 학생 비밀번호 수정
+	@GetMapping("/student/modifyStudentPw")
+	public String modifyStudentPw() {
+		log.debug("\u001B[31m" + "modifyStudentPw Form");
+		
+		return "/student/modifyStudentPw";
+	}
+	
+	@PostMapping("/student/modifyStudentPw")
+	public String modifyStudentPw(HttpSession session
+									,Model model
+									, @RequestParam(value = "oldPw") String oldPw
+									, @RequestParam(value = "newPw") String newPw) {
+		log.debug("\u001B[31m" + "modifyStudentPw Action");
+		
+		Student loginStudent = (Student)session.getAttribute("loginStudent");
+		int row = studentService.modifyStudentPw(loginStudent.getStudentNo(), newPw, oldPw);
+		
+		if(row != 1) {
+			log.debug("\u001B[31m" + "학생 비밀번호 수정 실패");
+			model.addAttribute("errorMsg", "비밀번호를 확인해주세요.");
+			
+			return "/student/modifyStudentPw";
+		}
+		log.debug("\u001B[31m" + "학생 비밀번호 수정 성공");
+		
+		return "redirect:/student/logout";
+	}
 	
 	// 학생 등록
 	@GetMapping("/employee/student/addStudent")

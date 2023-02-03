@@ -17,8 +17,23 @@ public class TeacherService {
 	@Autowired
 	private TeacherMapper teacherMapper;
 	
-	// 학생 등록
-	public int addStudent(Teacher teacher) {
+	// 강사 로그인
+	public Teacher login(Teacher Teacher) {
+		return teacherMapper.login(Teacher);
+	}
+	
+	// 강사 비밀번호 수정
+	public int modifyTeacherPw(int teacherNo, String newPw, String oldPw) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("teacherNo", teacherNo);
+		paramMap.put("newPw", newPw);
+		paramMap.put("oldPw", oldPw);
+		
+		return teacherMapper.modifyTeacherPw(paramMap);
+	}
+	
+	// 강사 등록
+	public int addTeacher(Teacher teacher) {
 		return teacherMapper.insertTeacher(teacher);
 	}
 	

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,7 +55,7 @@ public class EmployeeController {
 	}
 	
 	// 직원 로그인 
-	@GetMapping("/loginEmployee")
+	@GetMapping("/loginEmployee") // filter (/employee/*)로 인해 /loginEmployee
 	public String loginEmployee() {
 		log.debug("\u001B[31m" + "loginEmployee Form");
 		
@@ -62,7 +63,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/loginEmployee")
-	public String loginEmployee(HttpSession session, Employee employee) {
+	public String loginEmployee(HttpSession session, @ModelAttribute Employee employee /*Employee employee*/) {
 		log.debug("\u001B[31m" + "loginEmployee Action");
 	
 		Employee resultEmployee = employeeService.login(employee);
@@ -74,7 +75,7 @@ public class EmployeeController {
 		
 		session.setAttribute("loginEmployee", resultEmployee);
 		
-		return "redirect:/employee/employeeList";
+		return "/employee/employeeMain";
 	}
 	
 	// 직원 로그아웃
@@ -83,8 +84,9 @@ public class EmployeeController {
 		log.debug("\u001B[31m" + "logoutEmployee Action");
 		
 		session.invalidate();
+		log.debug("\u001B[31m" + "sessiong invalidate");
 		
-		return "redirect:/employee/loginEmployee";
+		return "redirect:/loginEmployee";
 	}
 	
 	// 직원 삭제

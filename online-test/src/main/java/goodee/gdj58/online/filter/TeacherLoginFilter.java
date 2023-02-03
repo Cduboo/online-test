@@ -33,10 +33,10 @@ public class TeacherLoginFilter implements Filter {
 				log.debug("\u001B[31m" + "TeacherLoginFilter : loginTeacher is NULL");
 				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/loginTeacher");
 				return;
-			} else {
-				log.debug("웹 브라우저 요청만 허용합니다.");
-				return;
-			}
+			} 
+		} else {
+			log.debug("웹 브라우저 요청만 허용합니다.");
+			return;
 		}
 		
 		chain.doFilter(request, response);
