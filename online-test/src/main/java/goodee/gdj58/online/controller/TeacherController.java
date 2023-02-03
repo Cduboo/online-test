@@ -23,11 +23,12 @@ public class TeacherController {
 	TeacherService teacherService;
 	@Autowired
 	IdService idService;
+	String logRed = "\u001B[31m";
 	
 	// 강사 메인 페이지
-	@GetMapping("/teacherMain")
+	@GetMapping("/teacher/teacherMain")
 	public String getTeacherMain() {
-		log.debug("\u001B[31m" + "teacherMain Form");
+		log.debug(logRed + "teacherMain Form");
 		
 		return "/teacher/teacherMain";
 	}
@@ -35,10 +36,10 @@ public class TeacherController {
 	// 강사 로그인
 	@GetMapping("/loginTeacher")
 	public String loginTeacher(HttpSession session) {
-		log.debug("\u001B[31m" + "loginTeacher Form");
+		log.debug(logRed + "loginTeacher Form");
 		
 		if(session.getAttribute("loginTeacher") != null) {
-			return "redirect:/teacherMain";
+			return "redirect:/teacher/teacherMain";
 		}
 		
 		return "/teacher/loginTeacher";
@@ -47,28 +48,28 @@ public class TeacherController {
 	@PostMapping("/loginTeacher")
 	public String loginTeacher(HttpSession session
 								, Teacher teacher) {
-		log.debug("\u001B[31m" + "loginStudent Action");
+		log.debug(logRed + "loginStudent Action");
 		
 		Teacher resultTeacher = teacherService.login(teacher);
 		
 		if(resultTeacher == null) {
-			log.debug("\u001B[31m" + "로그인 실패");
+			log.debug(logRed + "로그인 실패");
 			return "redirect:/loginTeacher";
 		}
 		
-		log.debug("\u001B[31m" + "로그인 성공");
+		log.debug(logRed + "로그인 성공");
 		session.setAttribute("loginTeacher", resultTeacher);
 		
-		return "redirect:/teacherMain";
+		return "redirect:/teacher/teacherMain";
 	}
 	
 	// 강사 로그아웃
 	@GetMapping("/teacher/logout")
 	public String logout(HttpSession session) {
-		log.debug("\u001B[31m" + "logoutTeacher Action");
+		log.debug(logRed + "logoutTeacher Action");
 		
 		session.invalidate();
-		log.debug("\u001B[31m" + "sessiong invalidate");
+		log.debug(logRed + "sessiong invalidate");
 		
 		return "redirect:/loginTeacher";
 	}
@@ -76,7 +77,7 @@ public class TeacherController {
 	// 강서 비밀번호 수정
 	@GetMapping("/teacher/modifyTeacherPw")
 	public String modifyTeacherPw() {
-		log.debug("\u001B[31m" + "modifyTeacherPw Form");
+		log.debug(logRed + "modifyTeacherPw Form");
 		
 		return "/teacher/modifyTeacherPw";
 	}
@@ -86,18 +87,18 @@ public class TeacherController {
 									,Model model
 									, @RequestParam(value = "oldPw") String oldPw
 									, @RequestParam(value = "newPw") String newPw) {
-		log.debug("\u001B[31m" + "modifyTeacherPw Action");
+		log.debug(logRed + "modifyTeacherPw Action");
 		
 		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
 		int row = teacherService.modifyTeacherPw(loginTeacher.getTeacherNo(), newPw, oldPw);
 		
 		if(row != 1) {
-			log.debug("\u001B[31m" + "강사 비밀번호 수정 실패");
+			log.debug(logRed + "강사 비밀번호 수정 실패");
 			model.addAttribute("errorMsg", "비밀번호를 확인해주세요.");
 			
 			return "/student/modifyStudentPw";
 		}
-		log.debug("\u001B[31m" + "강사 비밀번호 수정 성공");
+		log.debug(logRed + "강사 비밀번호 수정 성공");
 		
 		return "redirect:/teacher/logout";
 	}
@@ -105,19 +106,19 @@ public class TeacherController {
 	// 강사 등록
 	@GetMapping("/employee/teacher/addTeacher")
 	public String addTeacher() {
-		log.debug("\u001B[31m" + "addTeacher Form");
+		log.debug(logRed + "addTeacher Form");
 		
 		return "/employee/teacher/addTeacher";
 	}
 	
 	@PostMapping("/employee/teacher/addTeacher")
 	public String addStudent(Model model, Teacher teacher) {
-		log.debug("\u001B[31m" + "addTeacher Action");
+		log.debug(logRed + "addTeacher Action");
 		
 		// ID 중복 검사 (null이 아니면 중복)
 		String idCheck = idService.getIdCheck(teacher.getTeacherId());
 		if(idCheck != null) {
-			log.debug("\u001B[31m" + "중복된 강사 ID");
+			log.debug(logRed + "중복된 강사 ID");
 			model.addAttribute("errorMsg", "중복된 ID");
 			
 			return "/employee/teacher/addTeacher";
@@ -126,10 +127,10 @@ public class TeacherController {
 		int row = teacherService.addTeacher(teacher);
 		
 		if(row != 1) {
-			log.debug("\u001B[31m" + "강사 등록 실패");
+			log.debug(logRed + "강사 등록 실패");
 			model.addAttribute("errorMsg", "system error : 강사 등록 실패");
 		}
-		log.debug("\u001B[31m" + "강사 등록 성공");
+		log.debug(logRed + "강사 등록 성공");
 		
 		return "redirect:/employee/teacher/teacherList";
 	}
@@ -137,14 +138,14 @@ public class TeacherController {
 	// 강사 삭제
 	@GetMapping("/employee/teacher/removeTeacher")
 	public String removeTeacher(@RequestParam(value = "teacherNo") int teacherNo) {
-		log.debug("\u001B[31m" + "removeTeacher Action");
+		log.debug(logRed + "removeTeacher Action");
 		
 		int row = teacherService.removeTeacher(teacherNo);
 		
 		if(row == 1) {
-			log.debug("\u001B[31m" + "강사 삭제 성공");
+			log.debug(logRed + "강사 삭제 성공");
 		} else {
-			log.debug("\u001B[31m" + "강사 삭제 실패");
+			log.debug(logRed + "강사 삭제 실패");
 		}
 		
 		return "redirect:/employee/teacher/teacherList";
@@ -156,10 +157,10 @@ public class TeacherController {
 									, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
 									, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
 									, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) {
-		log.debug("\u001B[31m" + "teacherList Form");
-		log.debug("\u001B[31m" + "currentPage : " + currentPage);
-		log.debug("\u001B[31m" + "rowPerPage : " + rowPerPage);
-		log.debug("\u001B[31m" + "searchWord : " + searchWord);
+		log.debug(logRed + "teacherList Form");
+		log.debug(logRed + "currentPage : " + currentPage);
+		log.debug(logRed + "rowPerPage : " + rowPerPage);
+		log.debug(logRed + "searchWord : " + searchWord);
 		
 		List<Teacher> teacherList = teacherService.getTeacherList(currentPage, rowPerPage, searchWord);
 		int teacherCount = teacherService.getTeacherCount(searchWord);

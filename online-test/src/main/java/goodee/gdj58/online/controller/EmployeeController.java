@@ -24,11 +24,20 @@ public class EmployeeController {
 	EmployeeService employeeService;
 	@Autowired
 	IdService idService; // 트랜잭션 처리 시 service단으로
+	String logRed = "\u001B[31m";
+	
+	// 직원 메인 페이지
+	@GetMapping("/employee/employeeMain")
+	public String getEmployeeMain() {
+		log.debug(logRed + "employee Form");
+		
+		return "/employee/employeeMain";
+	}
 	
 	// 직원 비밀번호 수정
 	@GetMapping("/employee/modifyEmployeePw")
 	public String modifyEmployeePw() {
-		log.debug("\u001B[31m" + "modifyEmployeePw Form");
+		log.debug(logRed + "modifyEmployeePw Form");
 		
 		return "/employee/modifyEmployee";
 	}
@@ -38,18 +47,18 @@ public class EmployeeController {
 									, Model model
 									, @RequestParam(value = "oldPw") String oldPw 
 									, @RequestParam(value = "newPw") String newPw) {
-		log.debug("\u001B[31m" + "modifyEmployeePw Action");
+		log.debug(logRed + "modifyEmployeePw Action");
 		
 		Employee loginEmployee = (Employee)session.getAttribute("loginEmployee");
 		int row = employeeService.modifyEmployeePw(loginEmployee.getEmployeeNo(), oldPw, newPw);
 		
 		if(row != 1) {
-			log.debug("\u001B[31m" + "직원 비밀번호 수정 실패");
+			log.debug(logRed + "직원 비밀번호 수정 실패");
 			model.addAttribute("errorMsg", "비밀번호를 확인해주세요.");
 			
 			return "/employee/modifyEmployee";
 		}
-		log.debug("\u001B[31m" + "직원 비밀번호 수정 성공");			
+		log.debug(logRed + "직원 비밀번호 수정 성공");			
 				
 		return "redirect:/employee/logout";
 	}
@@ -57,34 +66,34 @@ public class EmployeeController {
 	// 직원 로그인 
 	@GetMapping("/loginEmployee") // filter (/employee/*)로 인해 /loginEmployee
 	public String loginEmployee() {
-		log.debug("\u001B[31m" + "loginEmployee Form");
+		log.debug(logRed + "loginEmployee Form");
 		
 		return "/employee/loginEmployee";
 	}
 	
 	@PostMapping("/loginEmployee")
 	public String loginEmployee(HttpSession session, @ModelAttribute Employee employee /*Employee employee*/) {
-		log.debug("\u001B[31m" + "loginEmployee Action");
+		log.debug(logRed + "loginEmployee Action");
 	
 		Employee resultEmployee = employeeService.login(employee);
 		
 		if(resultEmployee == null) {
-			log.debug("\u001B[31m" + "로그인 실패");
+			log.debug(logRed + "로그인 실패");
 			return "redirect:/employee/loginEmployee";
 		}
 		
 		session.setAttribute("loginEmployee", resultEmployee);
 		
-		return "/employee/employeeMain";
+		return "redirect:/employee/employeeMain";
 	}
 	
 	// 직원 로그아웃
 	@GetMapping("/employee/logout")
 	public String logout(HttpSession session) {
-		log.debug("\u001B[31m" + "logoutEmployee Action");
+		log.debug(logRed + "logoutEmployee Action");
 		
 		session.invalidate();
-		log.debug("\u001B[31m" + "sessiong invalidate");
+		log.debug(logRed + "sessiong invalidate");
 		
 		return "redirect:/loginEmployee";
 	}
@@ -92,14 +101,14 @@ public class EmployeeController {
 	// 직원 삭제
 	@GetMapping("/employee/removeEmployee")
 	public String removeEmployee(@RequestParam("employeeNo") int employeeNo) {
-		log.debug("\u001B[31m" + "removeEmployee Action");
+		log.debug(logRed + "removeEmployee Action");
 		
 		int row = employeeService.removeEmployee(employeeNo);
 		
 		if(row == 1) {
-			log.debug("\u001B[31m" + "직원 삭제 성공");			
+			log.debug(logRed + "직원 삭제 성공");			
 		} else {
-			log.debug("\u001B[31m" + "직원 삭제 실패");
+			log.debug(logRed + "직원 삭제 실패");
 		}
 		
 		return "redirect:/employee/employeeList";
@@ -108,20 +117,20 @@ public class EmployeeController {
 	// 직원 등록
 	@GetMapping("/employee/addEmployee")
 	public String addEmployee() {
-		log.debug("\u001B[31m" + "addEmployee Form");
+		log.debug(logRed + "addEmployee Form");
 		
 		return "/employee/addEmployee";
 	}
 	
 	@PostMapping("/employee/addEmployee")
 	public String addEmployee(HttpSession session, Model model, Employee employee) { // 커맨드객체, 만약 vo랑 name 같아야 됨(폼타입 vo), @RequestParam으로 받을 수 있지만 수가 많아지면 비효율적이다.
-		log.debug("\u001B[31m" + "addEmployee Action");
+		log.debug(logRed + "addEmployee Action");
 		
 		// ID 중복 검사 (null이 아니면 중복)
 		String idCheck = idService.getIdCheck(employee.getEmployeeId());
 		if(idCheck != null) {
 			model.addAttribute("errorMsg", "중복된 ID입니다.");
-			log.debug("\u001B[31m" + "중복된 직원 ID");
+			log.debug(logRed + "중복된 직원 ID");
 			
 			return "/employee/addEmployee";
 		}
@@ -130,9 +139,9 @@ public class EmployeeController {
 		
 		if(row != 1) {
 			model.addAttribute("errorMsg", "system error : 직원 등록 실패");
-			log.debug("\u001B[31m" + "직원 등록 실패");
+			log.debug(logRed + "직원 등록 실패");
 		}
-		log.debug("\u001B[31m" + "직원 등록 성공");	
+		log.debug(logRed + "직원 등록 성공");	
 		
 		return "redirect:/employee/employeeList";
 	}
@@ -145,10 +154,10 @@ public class EmployeeController {
 			, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
 			, @RequestParam(value = "rowPerPage", defaultValue = "10") int rowPerPage
 			, @RequestParam(value = "searchWord", defaultValue = "") String searchWord) {
-		log.debug("\u001B[31m" + "employeeList Form");
-		log.debug("\u001B[31m" + "currentPage : " + currentPage);
-		log.debug("\u001B[31m" + "rowPerPage : " + rowPerPage);
-		log.debug("\u001B[31m" + "searchWord : " + searchWord);
+		log.debug(logRed + "employeeList Form");
+		log.debug(logRed + "currentPage : " + currentPage);
+		log.debug(logRed + "rowPerPage : " + rowPerPage);
+		log.debug(logRed + "searchWord : " + searchWord);
 		
 		List<Employee> employeeList = employeeService.getEmployeeList(currentPage, rowPerPage, searchWord);
 		int employeeCount = employeeService.getEmployeeCount(searchWord);
