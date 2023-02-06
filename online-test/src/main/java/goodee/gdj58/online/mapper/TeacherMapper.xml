@@ -24,7 +24,7 @@
 	<!-- 강사 등록 -->
 	<insert id="insertTeacher" parameterType="goodee.gdj58.online.vo.Teacher">
 		INSERT INTO teacher(teacher_id, teacher_pw, teacher_name)
-		VALUES(#{teacherId}, PASSWORD(#{teacherPw}), #{teacherName});
+		VALUES(#{teacherId}, PASSWORD(#{teacherPw}), #{teacherName})
 	</insert>
 	
 	<!-- 강사 삭제 -->
@@ -50,7 +50,7 @@
 	</select> 
 	
 	<!-- 총 강사 수 -->
-	<select id="selectTeacherCount" parameterType="java.util.Map" resultType="Integer">
+	<select id="selectTeacherCount" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM teacher 
 		<where>
 			<if test="searchWord != null || searchWord != ''">

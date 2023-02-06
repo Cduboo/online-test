@@ -24,14 +24,5 @@
 				<button type="submit">로그인</button>
 			</form>		
 		</c:if>
-		<!-- 로그인 후 -->
-		<c:if test="${not empty loginTeacher}">
-			<!-- teacherMenu include -->
-			<div>
-				<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp" />
-			</div>
-			<span>${loginTeacher.teacherName}님 반갑습니다.</span>
-			<a href="${pageContext.request.contextPath}/teacher/logout">로그아웃</a>
-		</c:if>
 	</body>
 </html>

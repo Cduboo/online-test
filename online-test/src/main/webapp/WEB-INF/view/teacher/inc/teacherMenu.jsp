@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div>	
 	
-	<a href="${pageContext.request.contextPath}/teacher/teacherTestList">시험 관리</a>
+	<a href="${pageContext.request.contextPath}/teacher/test/testList">시험 관리</a>
 	<!-- 
 		 시험회차 관리(CRUD)
 		 개별 시험회차 클릭 시 해당 회차의 문제 리스트 출력 (문제 CRUD)

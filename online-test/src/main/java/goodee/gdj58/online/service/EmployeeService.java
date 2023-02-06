@@ -20,12 +20,12 @@ public class EmployeeService {
 	
 	// 직원 비밀번호 변경
 	public int modifyEmployeePw(int employeeNo, String oldPw, String newPw) { // service단에서 Map 가공 
-		Map<String, Object> paraMap = new HashMap<>();
-		paraMap.put("employeeNo", employeeNo);
-		paraMap.put("oldPw", oldPw);
-		paraMap.put("newPw", newPw);
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("employeeNo", employeeNo);
+		paramMap.put("oldPw", oldPw);
+		paramMap.put("newPw", newPw);
 		
-		return employeeMapper.updateEmployeePw(paraMap);
+		return employeeMapper.updateEmployeePw(paramMap);
 	}
 	
 	// 직원 로그인

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="goodee.gdj58.online.mapper.ExampleMapper">
+	<!-- 해당 문제 보기 -->
+	<select id="selectExampleByQuestion" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			example_no exampleNo
+			, question_no questionNo
+			, example_idx exampleIdx
+			, example_title exampleTitle
+			, example_ox exampleOx
+		FROM example
+		WHERE question_no = #{questionNo}
+	</select>
+</mapper>

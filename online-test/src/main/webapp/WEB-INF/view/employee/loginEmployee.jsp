@@ -24,14 +24,5 @@
 				<button type="submit">로그인</button>
 			</form>		
 		</c:if>
-		<!-- 로그인 후 -->
-		<c:if test="${not empty loginEmployee}">
-			<!-- empMenu include -->
-			<div>
-				<c:import url="/WEB-INF/view/employee/inc/employeeMenu.jsp" />
-			</div>
-			<span>${loginEmployee.employeeName}님 반갑습니다.</span>
-			<a href="${pageContext.request.contextPath}/employee/logout">로그아웃</a>
-		</c:if>
 	</body>
 </html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="goodee.gdj58.online.mapper.QuestionMapper">
+	<!-- 해당 시험 문제 -->
+	<select id="selectQuestionListByTest" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			question_no questionNo
+			, q.test_no testNo
+			, question_idx questionIdx
+			, question_title questionTitle
+		FROM question q
+		JOIN test t ON q.test_no = t.test_no  
+		WHERE q.test_no = #{testNo} AND teacher_no = #{teacherNo}
+	</select>
+</mapper>

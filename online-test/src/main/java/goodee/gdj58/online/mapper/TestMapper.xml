@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="goodee.gdj58.online.mapper.TestMapper">
+	<!-- 시험 삭제 -->
+	<delete id="deleteTest" parameterType="int">
+		DELETE FROM test where test_no = #{testNo} AND teacher_no = #{teacher_no}
+	</delete>
+	
+	<!-- 시험 등록 -->
+	<insert id="insertTest" parameterType="goodee.gdj58.online.vo.Test">
+		INSERT INTO test(test_title, test_memo, start_date, end_date, teacher_no)
+		VALUES (#{testTitle}, #{testMemo}, #{startDate}, #{endDate}, #{teacherNo})
+	</insert>
+
+	 <!-- 시험 상세 -->
+	<select id="selectTestOne" parameterType="java.util.Map" resultType="Map">
+		SELECT 
+			test_no testNo
+			, test_title testTitle
+			, test_memo testMemo
+			, start_date startDate
+			, end_date endDate
+			, ts.teacher_no teacherNo
+			, teacher_name teacherName
+		FROM test ts
+		JOIN teacher tc ON ts.teacher_no = tc.teacher_no
+		WHERE ts.test_no = #{testNo} AND ts.teacher_no = #{teacherNo}
+	</select>
+	
+	<!-- 시험 목록 -->
+	<select id="selectTestListByTeacher" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			test_no testNo
+			, test_title testTitle
+			, test_memo testMemo
+			, start_date startDate
+			, end_date endDate
+			, ts.teacher_no teacherNo
+			, teacher_name teacherName
+		FROM test ts
+		JOIN teacher tc 
+		ON ts.teacher_no = tc.teacher_no 
+		WHERE ts.teacher_no = #{teacherNo}
+	</select>
+</mapper>
