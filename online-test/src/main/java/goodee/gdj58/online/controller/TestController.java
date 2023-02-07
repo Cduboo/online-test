@@ -28,6 +28,21 @@ public class TestController {
 	
 	String logRed = "\u001B[31m";
 	
+	// 시험 삭제
+	@GetMapping("/teacher/test/removeTest")
+	public String removeTest(HttpSession session
+								, @RequestParam(value = "testNo") int testNo) {
+		log.debug(logRed + "removeTest Action");
+		log.debug(logRed + "testNo : " + testNo);
+		
+		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
+		int teacherNo = loginTeacher.getTeacherNo();
+		
+		testService.removeTest(testNo, teacherNo);
+		
+		return "redirect:/teacher/test/testList";
+	}
+	
 	// 시험 등록
 	@GetMapping("/teacher/test/addTest")
 	public String addTest() {

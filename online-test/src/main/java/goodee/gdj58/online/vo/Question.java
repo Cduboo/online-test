@@ -7,5 +7,5 @@ public class Question {
 	private int questionNo;
 	private int testNo;
 	private int questionIdx;
-	private int questionTitle;
+	private String questionTitle;
 }

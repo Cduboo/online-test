@@ -9,7 +9,7 @@ import goodee.gdj58.online.vo.Test;
 
 @Mapper
 public interface TestMapper {
-	int deleteTest(int testNo);
+	int deleteTest(Map<String, Object> paramMap);
 	int insertTest(Test test);
 	Map<String, Object> selectTestOne(Map<String, Object> paramMap);
 	List<Map<String, Object>> selectTestListByTeacher(int teacherNo);

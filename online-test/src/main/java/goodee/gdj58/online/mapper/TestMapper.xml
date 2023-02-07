@@ -3,8 +3,8 @@
 
 <mapper namespace="goodee.gdj58.online.mapper.TestMapper">
 	<!-- 시험 삭제 -->
-	<delete id="deleteTest" parameterType="int">
-		DELETE FROM test where test_no = #{testNo} AND teacher_no = #{teacher_no}
+	<delete id="deleteTest" parameterType="java.util.Map">
+		DELETE FROM test where test_no = #{testNo} AND teacher_no = #{teacherNo}
 	</delete>
 	
 	<!-- 시험 등록 -->

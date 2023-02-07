@@ -17,6 +17,15 @@ public class TestService {
 	@Autowired
 	private TestMapper testMapper;
 	
+	// 시험 삭제
+	public int removeTest(int testNo, int teacherNo) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("testNo", testNo);
+		paramMap.put("teacherNo", teacherNo);
+		
+		return testMapper.deleteTest(paramMap);
+	}
+	
 	// 시험 등록
 	public int addTest(Test test) {
 		return testMapper.insertTest(test);

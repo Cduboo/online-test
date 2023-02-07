@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="goodee.gdj58.online.mapper.ExampleMapper">
+	<!-- 보기 입력 -->
+	<insert id="insertExample" parameterType="goodee.gdj58.online.vo.Example">
+		INSERT INTO example(question_no, example_idx, example_title, example_ox)
+		VALUES(#{questionNo}, #{exampleIdx}, #{exampleTitle}, #{exampleOx});
+	</insert>
+
 	<!-- 해당 문제 보기 -->
 	<select id="selectExampleByQuestion" parameterType="int" resultType="java.util.Map">
 		SELECT 
