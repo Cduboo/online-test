@@ -56,21 +56,6 @@ public class TestController {
 		return "redirect:/teacher/test/testList";
 	}
 	
-	// 문제 상세
-	@GetMapping("/teacher/test/questionDetail")
-	public String getQuestionOne(HttpSession session
-									, Model model
-									, @RequestParam(value = "questionNo") int questionNo) {
-		log.debug(logRed + "questionDetail Form");
-		log.debug(logRed + "questionNo : " + questionNo);
-		
-		List<Map<String, Object>> exampleListByQuestion = exampleMapper.selectExampleByQuestion(questionNo);
-		
-		model.addAttribute("exampleListByQuestion", exampleListByQuestion);
-		
-		return "/teacher/test/questionDetail";
-	}
-	
 	// 시험 상세
 	@GetMapping("/teacher/test/testDetail")
 	public String getTestOne(HttpSession session

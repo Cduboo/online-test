@@ -41,20 +41,14 @@
 			생성된 문제가 없습니다.
 		</c:if>
 		<c:if test="${not empty questionList}">
-			<table border="1">
-				<thead>
-					<tr>
-						<th>NO.</th>
-						<th>문제 내용</th>
-					</tr>
-					<c:forEach var="q" items="${questionList}">
-						<tr>
-							<td><a href="${pageContext.request.contextPath}/teacher/test/questionDetail?questionNo=${q.questionNo}">${q.questionIdx}번</a></td>							
-							<td>${q.questionTitle}</td>							
-						</tr>
-					</c:forEach>
-				</thead>
-			</table>
+			<c:forEach var="q" items="${questionList}" varStatus="status">
+				<c:if test="${q.exampleIdx == 1}">
+					<div>${q.questionIdx}번 ${q.questionTitle}</div>
+				</c:if>
+				<div>
+					${q.exampleIdx}. ${q.exampleTitle} ${q.exampleOx}
+				</div>
+			</c:forEach>
 		</c:if>
 	</body>
 </html>
