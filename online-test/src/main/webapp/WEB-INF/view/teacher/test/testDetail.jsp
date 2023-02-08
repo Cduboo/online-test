@@ -17,7 +17,12 @@
 		</div>
 		
 		<h1>시험 관리</h1>
-		<a href="${pageContext.request.contextPath}/teacher/test/removeTest?testNo=${testOne.testNo}">시험 삭제</a>
+		<c:if test="${empty questionList}">
+			<a href="${pageContext.request.contextPath}/teacher/test/removeTest?testNo=${testOne.testNo}">시험 삭제</a>
+		</c:if>
+		<c:if test="${not empty questionList}">
+			<a href="#" onclick="alert('해당 시험에 등록된 문제를 모두 삭제해주세요.')">시험 삭제</a>
+		</c:if>
 		<a href="${pageContext.request.contextPath}/teacher/test/modifyTest?testNo=${testOne.testNo}">시험 수정</a>
 		<!-- 시험 정보 -->
 		<table border="1">
@@ -40,6 +45,7 @@
 		</table>
 		<!-- Button trigger modal -->
 		<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">문제 등록</button>
+		<a class="btn" href="${pageContext.request.contextPath}/teacher/test/modifyQuetion">문제 관리</a>
 		<!-- Modal -->
 		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
 			data-bs-keyboard="false" tabindex="-1"
@@ -106,11 +112,33 @@
 		</c:if>
 		<c:if test="${not empty questionList}">
 			<c:forEach var="q" items="${questionList}">
-				<c:if test="${q.exampleIdx == 1}">
-					<div>${q.questionIdx}번 ${q.questionTitle}</div>
+				<c:if test="${q.exampleIdx == 1 || q.exampleIdx == null}">
+					<form action="${pageContext.request.contextPath}/teacher/test/removeQuestion" method="post">
+						${q.questionIdx}번 ${q.questionTitle}
+						<input type="hidden" name="testNo" value="${testOne.testNo}"/>
+						<input type="hidden" name="questionNo" value="${q.questionNo}">
+						<c:if test="${q.exampleIdx == null}">
+							<button type="submit">문제삭제</button>
+						</c:if>
+						<c:if test="${q.exampleIdx != null}">
+							<button type="button" onclick="alert('해당 문제의 보기를 모두 삭제해주세요.')">문제삭제</button>
+						</c:if>
+					</form>
 				</c:if>
 				<div>
-					${q.exampleIdx}. ${q.exampleTitle} ${q.exampleOx}
+					<div>
+						<c:if test="${q.exampleIdx != null}">
+							<form action="${pageContext.request.contextPath}/teacher/test/removeExample" method="post">
+								${q.exampleIdx}. ${q.exampleTitle} ${q.exampleOx}
+								<input type="hidden" name="testNo" value="${testOne.testNo}"/>
+								<input type="hidden" name="exampleNo" value="${q.exampleNo}">
+								<button type="submit">X</button>						
+							</form>
+						</c:if>
+						<c:if test="${q.exampleIdx == null}">
+							등록된 보기가 없습니다.
+						</c:if>
+					</div>
 				</div>
 			</c:forEach>
 		</c:if>

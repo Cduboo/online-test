@@ -18,6 +18,23 @@ public class QustionController {
 	@Autowired private QuestionService questionService;
 	String logRed = "\u001B[31m";
 	
+	// 문제 삭제
+	@PostMapping("/teacher/test/removeQuestion")
+	public String removeQuestion(HttpSession session
+									, @RequestParam(value = "questionNo") int questionNo
+									, @RequestParam(value = "testNo") int testNo) {
+		log.debug(logRed + "removeQuestion Action");
+
+		int row = questionService.removeQuestion(questionNo);
+		
+		if(row != 1) {
+			log.debug(logRed + "문제 삭제 실패");
+		}
+		log.debug(logRed + "문제 삭제 성공");
+		
+		return "redirect:/teacher/test/testDetail?testNo="+testNo;
+	}
+	
 	// 문제 등록
 	@GetMapping("/teacher/test/addQuestion")
 	public String addQuestion() {

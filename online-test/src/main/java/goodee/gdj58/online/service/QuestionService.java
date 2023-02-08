@@ -19,6 +19,11 @@ public class QuestionService {
 	@Autowired private QuestionMapper questionMapper;
 	@Autowired private ExampleMapper exampleMapper;
 	
+	// 문제 삭제
+	public int removeQuestion(int questionNo) {
+		return questionMapper.deleteQuestion(questionNo);
+	}
+	
 	// 가장 최근 문제 코드
 	public int getMaxQuestionNo() {
 		return questionMapper.selectMaxQuestionNo();
@@ -27,7 +32,6 @@ public class QuestionService {
 	// 문제 등록
 	public int addQuestion(Question question
 								, int[] exampleIdx, String[] exampleTitle, String exampleOx) {
-		
 		int row = questionMapper.insertQuestion(question);
 		
 		if(row == 1) {

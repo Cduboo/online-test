@@ -3,6 +3,11 @@
 
 <mapper namespace="goodee.gdj58.online.mapper.QuestionMapper">
 
+	<!-- 문제 삭제 -->
+	<delete id="deleteQuestion" parameterType="int">
+		DELETE FROM question WHERE question_no = #{questionNo}
+	</delete>
+	
 	<!-- 가장 최근 문제 코드 -->
 	<select id="selectMaxQuestionNo" resultType="int">
 		SELECT MAX(question_no) questionNo FROM question
@@ -20,12 +25,14 @@
 			, q.test_no testNo
 			, question_idx questionIdx
 			, question_title questionTitle
+			, example_no exampleNo
 			, example_idx exampleIdx
 			, example_title exampleTitle
 			, example_ox exampleOx
 		FROM question q
-		JOIN example e ON q.question_no = e.question_no
+		LEFT JOIN example e ON q.question_no = e.question_no
 		JOIN test t ON q.test_no = t.test_no
 		WHERE q.test_no = #{testNo} AND teacher_no = #{teacherNo}
+		ORDER BY question_idx, example_idx
 	</select>
 </mapper>

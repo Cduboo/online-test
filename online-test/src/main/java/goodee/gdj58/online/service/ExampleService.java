@@ -15,6 +15,11 @@ public class ExampleService {
 	@Autowired
 	private ExampleMapper exampleMapper;
 	
+	// 보기 삭제
+	public int removeExample(int exampleNo) {
+		return exampleMapper.deleteExample(exampleNo);
+	}
+	
 	// 해당 문제 보기
 	public List<Map<String, Object>> getExampleByQuestion(int questionNo) {
 		return exampleMapper.selectExampleByQuestion(questionNo);
