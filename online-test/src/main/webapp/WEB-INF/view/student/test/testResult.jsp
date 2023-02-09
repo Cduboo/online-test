@@ -15,7 +15,7 @@
 		<c:forEach var="tr" items="${testResult}">
 			<c:if test="${tr.questionIdx == 1}">
 				${tr.testTitle}
-			</c:if>
+			</c:if> 
 			${tr.questionIdx}
 			${tr.answer}
 			${tr.exampleIdx}
