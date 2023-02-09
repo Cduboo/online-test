@@ -54,11 +54,19 @@ public class QuestionService {
 		return row;
 	}
 	
-	// 문제 상세
+	// 문제 상세(강사)
 	public List<Map<String, Object>> getQuestionListByTest(int testNo, int teacherNo) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("testNo", testNo);
 		paramMap.put("teacherNo", teacherNo);
+		
+		return questionMapper.selectQuestionListByTest(paramMap); 
+	}
+	
+	// 문제 상세(학생)
+	public List<Map<String, Object>> getQuestionListByTest(int testNo) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("testNo", testNo);
 		
 		return questionMapper.selectQuestionListByTest(paramMap); 
 	}

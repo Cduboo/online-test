@@ -13,4 +13,5 @@ public interface TestMapper {
 	int insertTest(Test test);
 	Map<String, Object> selectTestOne(Map<String, Object> paramMap);
 	List<Map<String, Object>> selectTestListByTeacher(int teacherNo);
+	List<Map<String, Object>> selectTestListByStudent();
 }

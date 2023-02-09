@@ -28,7 +28,7 @@
 		WHERE ts.test_no = #{testNo} AND ts.teacher_no = #{teacherNo}
 	</select>
 	
-	<!-- 시험 목록 -->
+	<!-- 시험 목록(강사) -->
 	<select id="selectTestListByTeacher" parameterType="int" resultType="java.util.Map">
 		SELECT 
 			test_no testNo
@@ -42,5 +42,21 @@
 		JOIN teacher tc 
 		ON ts.teacher_no = tc.teacher_no 
 		WHERE ts.teacher_no = #{teacherNo}
+	</select>
+	
+	<!-- 시험 목록(학생) -->
+	<select id="selectTestListByStudent" resultType="java.util.Map">
+		SELECT 
+			test_no testNo
+			, test_title testTitle
+			, test_memo testMemo
+			, start_date startDate
+			, end_date endDate
+			, ts.teacher_no teacherNo
+			, teacher_name teacherName
+		FROM test ts
+		JOIN teacher tc 
+		ON ts.teacher_no = tc.teacher_no
+		ORDER BY start_date
 	</select>
 </mapper>

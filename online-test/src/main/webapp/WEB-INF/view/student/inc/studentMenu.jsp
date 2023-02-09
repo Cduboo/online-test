@@ -8,7 +8,7 @@
 		 
 		 그 외 본인 등수, 제출 현황 등    
 	 -->
-	<a href="${pageContext.request.contextPath}/student/studentTestList">시험 관리</a>
+	<a href="${pageContext.request.contextPath}/student/test/testList">시험 관리</a>
 	<a href="${pageContext.request.contextPath}/student/modifyStudentPw">비밀번호 수정</a>
 	<a href="${pageContext.request.contextPath}/student/logout">로그아웃</a>
 </div>

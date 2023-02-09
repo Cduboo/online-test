@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import goodee.gdj58.online.mapper.ExampleMapper;
 import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.service.TestService;
+import goodee.gdj58.online.vo.Student;
 import goodee.gdj58.online.vo.Teacher;
 import goodee.gdj58.online.vo.Test;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +72,7 @@ public class TestController {
 		return "redirect:/teacher/test/testList";
 	}
 	
-	// 시험 상세
+	// 시험 상세(강사)
 	@GetMapping("/teacher/test/testDetail")
 	public String getTestOne(HttpSession session
 								, Model model
@@ -91,10 +92,24 @@ public class TestController {
 		return "/teacher/test/testDetail";
 	}
 	
-	// 시험 목록
+	// 시험 상세(학생)
+	@PostMapping("/student/test/testDetail")
+	public String getTestOne(Model model
+			, @RequestParam(value = "testNo") int testNo) {
+		log.debug(logRed + "testDetail Form");
+		log.debug(logRed + "testNo : " + testNo);
+		
+		List<Map<String, Object>> questionList = questionService.getQuestionListByTest(testNo);
+		
+		model.addAttribute("questionList", questionList);
+		
+		return "/student/test/testDetail";
+	}
+	
+	// 시험 목록(강사)
 	@GetMapping("/teacher/test/testList")
-	public String getTestList(HttpSession session, Model model) {
-		log.debug(logRed + "test From");
+	public String getTestListByTeacher(HttpSession session, Model model) {
+		log.debug(logRed + "teacher test From");
 		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
 		int teacherNo = loginTeacher.getTeacherNo();
 		
@@ -103,5 +118,19 @@ public class TestController {
 		model.addAttribute("testList", testList);
 		
 		return "/teacher/test/testList";
+	}
+	
+	// 시험 목록(학생)
+	@GetMapping("/student/test/testList")
+	public String getTestListByStudent(HttpSession session, Model model) {
+		log.debug(logRed + "student test From");
+		
+		Student loginStudent = (Student)session.getAttribute("loginStudent");
+		int studentNo = loginStudent.getStudentNo();
+		List<Map<String, Object>> testList = testService.getTestListByStudent(studentNo);
+		
+		model.addAttribute("testList", testList);
+		
+		return "/student/test/testList";
 	}
 }

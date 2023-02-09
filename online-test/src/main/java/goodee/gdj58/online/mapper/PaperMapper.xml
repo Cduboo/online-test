@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="goodee.gdj58.online.mapper.PaperMapper">
+	<!-- 시험 결과  -->
+	<select id="selectTestResult" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT test_title testTitle, p.question_no questionNo, question_idx questionIdx, answer, example_idx exampleIdx, example_ox exampleOx
+		FROM paper p
+			JOIN question q ON p.question_no = q.question_no
+			JOIN example e ON q.question_no = e.question_no
+			JOIN test t ON q.test_no = t.test_no
+		WHERE student_no = #{studentNo} AND t.test_no = #{testNo} AND example_ox = '정답'
+		ORDER BY question_idx, example_idx
+	</select>
+	
+	<!-- 해당 학생이 응시한 시험 목록 -->
+	<select id="selectTestCheck" parameterType="int" resultType="int">
+		SELECT test_no testNo FROM question q
+			JOIN paper p ON q.question_no = p.question_no
+			JOIN student s ON p.student_no = s.student_no
+		WHERE p.student_no = #{studentNo}
+		GROUP BY test_no
+	</select>
+	
+	<!-- 답안지 제출 -->
+	<insert id="insertPaper" parameterType="goodee.gdj58.online.vo.Paper">
+		INSERT INTO paper(question_no, student_no, answer) VALUES(#{questionNo}, #{studentNo}, #{answer})
+	</insert>
+</mapper>
