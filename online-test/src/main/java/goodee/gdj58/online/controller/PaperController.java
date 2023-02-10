@@ -26,7 +26,7 @@ public class PaperController {
 	@GetMapping("/student/test/testResult")
 	public String getTestResult(HttpSession session
 									, Model model
-									, @RequestParam(value = "testNo") int testNo) {
+									, @RequestParam(value = "testNo", defaultValue = "0" ) int testNo) {
 		log.debug(logRed + "testResult Form");
 		log.debug(logRed + "testNo : " + testNo);
 		

@@ -137,7 +137,7 @@ public class TeacherController {
 	
 	// 강사 삭제
 	@GetMapping("/employee/teacher/removeTeacher")
-	public String removeTeacher(@RequestParam(value = "teacherNo") int teacherNo) {
+	public String removeTeacher(@RequestParam(value = "teacherNo", defaultValue = "0") int teacherNo) {
 		log.debug(logRed + "removeTeacher Action");
 		
 		int row = teacherService.removeTeacher(teacherNo);

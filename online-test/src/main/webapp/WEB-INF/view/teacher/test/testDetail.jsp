@@ -11,6 +11,8 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 	<body>
+		<jsp:useBean id="now" class="java.util.Date" />
+		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" var="today" />
 		<!-- teacherMenu include -->
 		<div>
 			<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp" />
@@ -26,29 +28,82 @@
 		<c:if test="${not empty questionList}">
 			<button type="button" id="deleteTestBtn" onclick="alert('해당 시험에 등록된 문제를 모두 삭제해주세요.')">시험 삭제</button>
 		</c:if>
-		<form action="${pageContext.request.contextPath}/teacher/test/modifyTest">
-			<input type="hidden" name="testNo" value="${testOne.testNo}">
-			<button type="submit">시험 수정</button>	
-		</form>
-		<!-- 시험 정보 -->
-		<table border="1">
-			<thead>
-				<tr>
-					<th>시험 제목</th>
-					<th>시험 내용</th>
-					<th>시험 기간</th>
-					<th>시험 담당</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${testOne.testTitle}</td>
-					<td>${testOne.testMemo}</td>
-					<td>${testOne.startDate} ~ ${testOne.endDate}</td>
-					<td>${testOne.teacherName}</td>
-				</tr>
-			</tbody>
-		</table>
+		<c:if test="${empty MOD}">
+			<form action="${pageContext.request.contextPath}/teacher/test/modifyTest" method="get">
+				<input type="hidden" name="testNo" value="${testOne.testNo}">
+				<c:if test="${today >= testOne.startDate && today <= testOne.endDate}">
+					<button type="button" disabled="disabled">시험 수정</button>
+				</c:if>
+				
+				<c:if test="${today < testOne.startDate || today > testOne.endDate}">			
+					<c:if test="${testOne.paperCountByTest > 0}">
+						<button type="button" disabled="disabled">시험 수정</button>
+					</c:if>
+					<c:if test="${testOne.paperCountByTest == 0}">
+						<button type="submit">시험 수정</button> 
+					</c:if>
+				</c:if>
+			</form>
+		</c:if>
+		
+		<!-- 시험 수정 -->
+		<c:if test="${empty MOD}">
+			<table border="1">
+				<thead>
+					<tr>
+						<th>시험 제목</th>
+						<th>시험 내용</th>
+						<th>시험 기간</th>
+						<th>시험 담당</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>${testOne.testTitle}</td>
+						<td>${testOne.testMemo}</td>
+						<td>${testOne.startDate} ~ ${testOne.endDate}</td>
+						<td>${testOne.teacherName}</td>
+					</tr>
+				</tbody>
+			</table>
+		</c:if>
+		
+		<c:if test="${MOD eq 'MOD_MODIFY'}">
+			<form action="${pageContext.request.contextPath}/teacher/test/modifyTest" method="post">			
+				<input type="hidden" name="testNo" value="${testOne.testNo}">
+				<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}">
+				<h3>시험 정보 등록</h3>
+				<table border="1">
+					<tr>
+						<th>시험명</th>
+						<td><input type="text" name="testTitle" value="${testOne.testTitle}"/></td>
+					</tr>
+					<tr>
+						<th>시험 내용</th>
+						<td><textarea rows="5" cols="50" name="testMemo">${testOne.testMemo}</textarea></td>
+					</tr>
+					<tr>
+						<th>시험 기간</th>
+						<td>
+							<input type="datetime-local" name="startDate" value="${testOne.startDate}"/> ~ 
+							<input type="datetime-local" name="endDate" value="${testOne.endDate}"/>						
+						</td>
+					</tr>
+				</table>
+				<c:if test="${today >= testOne.startDate && today <= testOne.endDate}">
+					<button type="button" disabled="disabled">시험 수정</button>
+				</c:if>
+				
+				<c:if test="${today < testOne.startDate || today > testOne.endDate}">			
+					<c:if test="${testOne.paperCountByTest > 0}">
+						<button type="button" disabled="disabled">시험 수정</button>
+					</c:if>
+					<c:if test="${testOne.paperCountByTest == 0}">
+						<button type="submit">시험 수정</button> 
+					</c:if>
+				</c:if>
+			</form>
+		</c:if>
 		
 		<!-- 문제 등록 modal -->
 		<button type="button" data-bs-toggle="modal" data-bs-target="#addQuestion">문제 등록</button>
@@ -209,10 +264,10 @@
 			$(function() {
 				let msg = '${msg}';
 				if(msg == 'MODIFY_SUCCESS') {
-					alert('문제 수정 완료');
+					alert('수정 완료');
 				}
 				if(msg == 'MODIFY_ERROR') {
-					alert('문제 수정 실패');
+					alert('수정 실패');
 				}
 			});
 		</script>

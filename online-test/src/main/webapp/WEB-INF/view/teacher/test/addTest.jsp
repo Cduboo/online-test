@@ -33,21 +33,6 @@
 					</td>
 				</tr>
 			</table>
-			<h3>시험 설정</h3>
-			<table border="1">
-				<tr>
-					<th>시험시간</th>
-					<td><input type="number" name="testTime"/>분</td>
-				</tr>
-				<tr>
-					<th>성적공개여부</th>
-					<td><input type="radio" name="grades" value="public">공개 <input type="radio" name="grades" value="private">미공개</td>
-				</tr>
-				<tr>
-					<th>객관식 문항 랜덤</th>
-					<td><input type="radio" name="random" value="false">반영 <input type="radio" name="random" value="true">미반영</td>
-				</tr>
-			</table>
 			<button type="submit">시험 등록</button>
 		</form>
 	</body>

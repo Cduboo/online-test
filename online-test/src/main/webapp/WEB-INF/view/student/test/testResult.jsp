@@ -39,6 +39,6 @@
 				<c:set var="i" value="${i = i+1}"/>
 			</c:forEach>
 		</table>
-		<div>내 점수 : ${100 / i}점</div>
+		<div>내 점수 : ${100 / i eq 'Infinity' ? '' : 100/i}점</div>
 	</body>
 </html>

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import goodee.gdj58.online.mapper.ExampleMapper;
 import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.service.TestService;
 import goodee.gdj58.online.vo.Student;
@@ -26,9 +25,35 @@ import lombok.extern.slf4j.Slf4j;
 public class TestController {
 	@Autowired TestService testService;
 	@Autowired QuestionService questionService;
-	@Autowired ExampleMapper exampleMapper;
 	
 	String logRed = "\u001B[31m";
+	
+	// 시험 수정
+	@GetMapping("/teacher/test/modifyTest")
+	public String modifyTest(RedirectAttributes re
+								, @RequestParam(value = "testNo", defaultValue = "0" ) int testNo) {
+		log.debug(logRed + "modifyTest Form");
+		
+		re.addFlashAttribute("MOD", "MOD_MODIFY");
+		log.debug(logRed + "MOD : " + re.getAttribute("MOD"));
+		
+		return "redirect:/teacher/test/testDetail?testNo=" + testNo;
+	}
+	
+	@PostMapping("/teacher/test/modifyTest")
+	public String modifyTest(RedirectAttributes re , Test test) {
+		log.debug(logRed + "modifyTest Action");
+		
+		int row = testService.modifyTest(test);
+		if(row != 1) {
+			re.addFlashAttribute("msg", "MODIFY_ERROR");
+		} else {
+			re.addFlashAttribute("msg", "MODIFY_SUCCESS");
+		}
+		
+		return "redirect:/teacher/test/testDetail?testNo=" + test.getTestNo();
+	}
+	
 	
 	// 시험 삭제
 	@PostMapping("/teacher/test/removeTest")
@@ -79,7 +104,7 @@ public class TestController {
 	@GetMapping("/teacher/test/testDetail")
 	public String getTestOne(HttpSession session
 								, Model model
-								, @RequestParam(value = "testNo") int testNo) {
+								, @RequestParam(value = "testNo", defaultValue = "0" ) int testNo) {
 		log.debug(logRed + "testDetail Form");
 		log.debug(logRed + "testNo : " + testNo);
 		

@@ -20,6 +20,11 @@ public class TestService {
 	@Autowired
 	private PaperMapper paperMapper;
 	
+	// 시험 수정
+	public int modifyTest(Test test) {
+		return testMapper.updateTest(test);
+	}
+	
 	// 시험 삭제
 	public int removeTest(int testNo, int teacherNo) {
 		Map<String, Object> paramMap = new HashMap<>();
@@ -40,7 +45,14 @@ public class TestService {
 		paramMap.put("testNo", testNo);
 		paramMap.put("teacherNo", teacherNo);
 		
-		return testMapper.selectTestOne(paramMap);
+		int paperCountByTest = testMapper.selectPaperCountByTest(testNo);
+		
+		Map<String, Object> testOneMap = testMapper.selectTestOne(paramMap);
+		if(testOneMap != null) {
+			testOneMap.put("paperCountByTest", paperCountByTest);			
+		}
+		
+		return testOneMap; 
 	}
 	
 	// 시험 목록(강사)

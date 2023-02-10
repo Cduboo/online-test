@@ -137,7 +137,7 @@ public class StudentController {
 						
 	// 학생 삭제
 	@GetMapping("/employee/student/removeStudent")
-	public String removeStudent(@RequestParam(value = "studentNo") int studentNo) {
+	public String removeStudent(@RequestParam(value = "studentNo", defaultValue = "0") int studentNo) {
 		log.debug(logRed + "removeStudent Action");
 		
 		int row = studentService.removeStudent(studentNo);
