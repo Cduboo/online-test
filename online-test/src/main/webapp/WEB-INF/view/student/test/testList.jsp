@@ -51,7 +51,7 @@
 										<button type="submit">시험 응시</button>
 									</form>
 								</c:if>
-								<c:if test="${today > t.startDate && today > t.endDate}">
+								<c:if test="${today < t.startDate || today > t.endDate}">
 									<button type="button" disabled="disabled">시험 응시</button>		
 								</c:if>
 							</c:if>

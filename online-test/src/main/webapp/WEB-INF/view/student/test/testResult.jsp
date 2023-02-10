@@ -12,14 +12,30 @@
 			<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp" />
 		</div>
 		
-		<c:forEach var="tr" items="${testResult}">
+		<h1>시험 결과</h1>
+		<c:forEach var="tr" items="${testResult}">	
 			<c:if test="${tr.questionIdx == 1}">
-				${tr.testTitle}
+				<div>시험명 : ${tr.testTitle}</div>
 			</c:if> 
-			${tr.questionIdx}
-			${tr.answer}
-			${tr.exampleIdx}
-			${tr.exampleOx}
 		</c:forEach>
+		<table border="1">
+			<tr>
+				<th>문제 번호</th>
+				<th>정답</th>
+				<th>제출답안</th>
+				<th>정답여부</th>
+			</tr>
+			<c:forEach var="tr" items="${testResult}">			
+				<tr>
+					<td>${tr.questionIdx}</td>
+					<td>${tr.exampleIdx}</td>
+					<td>${tr.answer}</td>
+					<td>
+						<c:set var="v" value="${tr.exampleIdx eq tr.answer ? 'O' : 'X' }"></c:set>
+						<c:out value="${v}"></c:out>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
 	</body>
 </html>
