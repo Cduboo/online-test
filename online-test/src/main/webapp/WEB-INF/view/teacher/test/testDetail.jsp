@@ -18,12 +18,18 @@
 		
 		<h1>시험 관리</h1>
 		<c:if test="${empty questionList}">
-			<a href="${pageContext.request.contextPath}/teacher/test/removeTest?testNo=${testOne.testNo}">시험 삭제</a>
+			<form action="${pageContext.request.contextPath}/teacher/test/removeTest" method="post">
+				<input type="hidden" name="testNo" value="${testOne.testNo}">
+				<button type="submit">시험 삭제</button>
+			</form>
 		</c:if>
 		<c:if test="${not empty questionList}">
-			<a href="#" onclick="alert('해당 시험에 등록된 문제를 모두 삭제해주세요.')">시험 삭제</a>
+			<button type="button" id="deleteTestBtn" onclick="alert('해당 시험에 등록된 문제를 모두 삭제해주세요.')">시험 삭제</button>
 		</c:if>
-		<a href="${pageContext.request.contextPath}/teacher/test/modifyTest?testNo=${testOne.testNo}">시험 수정</a>
+		<form action="${pageContext.request.contextPath}/teacher/test/modifyTest">
+			<input type="hidden" name="testNo" value="${testOne.testNo}">
+			<button type="submit">시험 수정</button>	
+		</form>
 		<!-- 시험 정보 -->
 		<table border="1">
 			<thead>
@@ -43,11 +49,11 @@
 				</tr>
 			</tbody>
 		</table>
-		<!-- Button trigger modal -->
-		<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">문제 등록</button>
-		<a class="btn" href="${pageContext.request.contextPath}/teacher/test/modifyQuetion">문제 관리</a>
+		
+		<!-- 문제 등록 modal -->
+		<button type="button" data-bs-toggle="modal" data-bs-target="#addQuestion">문제 등록</button>
 		<!-- Modal -->
-		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+		<div class="modal fade" id="addQuestion" data-bs-backdrop="static"
 			data-bs-keyboard="false" tabindex="-1"
 			aria-labelledby="staticBackdropLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
@@ -106,6 +112,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- 시험 문제 목록 -->
 		<c:if test="${empty questionList}">
 			생성된 문제가 없습니다.
@@ -113,27 +120,83 @@
 		<c:if test="${not empty questionList}">
 			<c:forEach var="q" items="${questionList}">
 				<c:if test="${q.exampleIdx == 1 || q.exampleIdx == null}">
-					<form action="${pageContext.request.contextPath}/teacher/test/removeQuestion" method="post">
+					<div>
 						${q.questionIdx}번 ${q.questionTitle}
-						<input type="hidden" name="testNo" value="${testOne.testNo}"/>
-						<input type="hidden" name="questionNo" value="${q.questionNo}">
-						<c:if test="${q.exampleIdx == null}">
-							<button type="submit">문제삭제</button>
-						</c:if>
-						<c:if test="${q.exampleIdx != null}">
-							<button type="button" onclick="alert('해당 문제의 보기를 모두 삭제해주세요.')">문제삭제</button>
-						</c:if>
-					</form>
-				</c:if>
+						<!-- 문제 수정 modal -->
+						<button type="button" data-bs-toggle="modal" data-bs-target="#${q.questionNo}">문제 관리</button>		
+						<!-- Modal -->
+						<div class="modal fade" id="${q.questionNo}" data-bs-backdrop="static"
+							data-bs-keyboard="false" tabindex="-1"
+							aria-labelledby="staticBackdropLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-body">
+										<form action="${pageContext.request.contextPath}/teacher/test/removeQuestion" method="post">
+											<button type="submit">문제 삭제</button>
+										</form>
+										<form action="${pageContext.request.contextPath}/teacher/test/modifyQuestion" method="post">
+											<input type="hidden" name="testNo" value="${testOne.testNo}"/>
+											<input type="hidden" name="questionNo" value="${q.questionNo}">											
+											<!-- 문제 -->
+											<table border="1">
+												<tr>
+													<td>
+														<input type="hidden" name="testNo" value="${testOne.testNo}"/>
+														문제 번호 <input type="number" name="questionIdx" value="${q.questionIdx}"/>
+													</td>
+												</tr>
+												<tr>
+													<td>문제 설명</td>
+												</tr>
+												<tr>
+													<td>
+														<textarea rows="5" cols="30" name="questionTitle">${q.questionTitle}</textarea>
+													</td>
+												</tr>
+											</table>
+											<!-- 보기(객관식) -->
+											<table border="1">
+												<tr>
+													<th>번호</th>
+													<th>보기</th>
+													<th>정답여부</th>
+												</tr>
+												<c:forEach var="e" items="${questionList}">
+													<c:if test="${q.questionNo eq e.questionNo}">
+														<tr>
+															<td>
+																<input type="hidden" name="exampleNo" value="${e.exampleNo}">
+																<input type="hidden" name="exampleIdx" value="${e.exampleIdx}">보기 ${e.exampleIdx}
+															</td>
+															<td><input type="text" name="exampleTitle" value="${e.exampleTitle}"/></td>
+															<td>
+																<c:if test="${e.exampleOx eq '정답'}">
+																	<input type="radio" name="exampleOx" value="${e.exampleIdx -1}" checked="checked"/>
+																</c:if>
+																<c:if test="${e.exampleOx eq '오답'}">
+																	<input type="radio" name="exampleOx" value="${e.exampleIdx -1}"/>
+																</c:if>
+															</td>
+														</tr>
+													</c:if>
+												</c:forEach>
+											</table>
+											<button type="submit">수정</button>
+											<button type="button" onClick="window.location.reload()">취소</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:if>		
 				<div>
 					<div>
 						<c:if test="${q.exampleIdx != null}">
-							<form action="${pageContext.request.contextPath}/teacher/test/removeExample" method="post">
-								${q.exampleIdx}. ${q.exampleTitle} ${q.exampleOx}
-								<input type="hidden" name="testNo" value="${testOne.testNo}"/>
-								<input type="hidden" name="exampleNo" value="${q.exampleNo}">
-								<button type="submit">X</button>						
-							</form>
+							 <c:set var="ox" value="${q.exampleOx eq '정답' ? '✔' : ''}"/> 
+							${q.exampleIdx}. ${q.exampleTitle} <c:out value="${ox}" />
+							<input type="hidden" name="testNo" value="${testOne.testNo}"/>
+							<input type="hidden" name="exampleNo" value="${q.exampleNo}">
 						</c:if>
 						<c:if test="${q.exampleIdx == null}">
 							등록된 보기가 없습니다.
@@ -142,5 +205,16 @@
 				</div>
 			</c:forEach>
 		</c:if>
+		<script>
+			$(function() {
+				let msg = '${msg}';
+				if(msg == 'MODIFY_SUCCESS') {
+					alert('문제 수정 완료');
+				}
+				if(msg == 'MODIFY_ERROR') {
+					alert('문제 수정 실패');
+				}
+			});
+		</script>
 	</body>
 </html>

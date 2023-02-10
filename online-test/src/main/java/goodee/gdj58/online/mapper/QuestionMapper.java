@@ -9,6 +9,7 @@ import goodee.gdj58.online.vo.Question;
 
 @Mapper
 public interface QuestionMapper {
+	int updateQuestion(Question question);
 	int deleteQuestion(int questionNo);
 	int selectMaxQuestionNo();
 	int insertQuestion(Question question);

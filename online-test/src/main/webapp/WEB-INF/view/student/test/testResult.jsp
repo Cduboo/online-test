@@ -25,7 +25,8 @@
 				<th>제출답안</th>
 				<th>정답여부</th>
 			</tr>
-			<c:forEach var="tr" items="${testResult}">			
+			<c:set var="i" value="0"/>			
+			<c:forEach var="tr" items="${testResult}">
 				<tr>
 					<td>${tr.questionIdx}</td>
 					<td>${tr.exampleIdx}</td>
@@ -35,7 +36,9 @@
 						<c:out value="${v}"></c:out>
 					</td>
 				</tr>
+				<c:set var="i" value="${i = i+1}"/>
 			</c:forEach>
 		</table>
+		<div>내 점수 : ${100 / i}점</div>
 	</body>
 </html>

@@ -19,6 +19,30 @@ public class QuestionService {
 	@Autowired private QuestionMapper questionMapper;
 	@Autowired private ExampleMapper exampleMapper;
 	
+	// 문제 수정
+	public int modifyQuestion(Question question
+								, int exampleNo[] , int[] exampleIdx, String[] exampleTitle, String exampleOx) {
+		int row = questionMapper.updateQuestion(question);
+		
+		if(row == 1) {
+			for(int i = 0; i <exampleIdx.length; i++) {
+				Example example = new Example();
+				example.setExampleNo(exampleNo[i]);
+				example.setExampleIdx(exampleIdx[i]);
+				example.setExampleTitle(exampleTitle[i]);
+				example.setExampleOx("오답");
+				
+				if(i == Integer.parseInt(exampleOx)) {
+					example.setExampleOx("정답");
+				}
+				
+				row = exampleMapper.updateExample(example);
+			}
+		}
+		
+		return row;
+	}
+	
 	// 문제 삭제
 	public int removeQuestion(int questionNo) {
 		return questionMapper.deleteQuestion(questionNo);

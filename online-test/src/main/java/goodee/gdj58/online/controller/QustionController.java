@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import goodee.gdj58.online.service.QuestionService;
 import goodee.gdj58.online.vo.Question;
@@ -17,6 +18,34 @@ import lombok.extern.slf4j.Slf4j;
 public class QustionController {	
 	@Autowired private QuestionService questionService;
 	String logRed = "\u001B[31m";
+	
+	// 문제 수정
+	@PostMapping("/teacher/test/modifyQuestion")
+	public String modifyQuestion(HttpSession session, RedirectAttributes re
+							, Question question
+							, @RequestParam(value = "exampleIdx") int[] exampleIdx
+							, @RequestParam(value = "exampleTitle") String[] exampleTitle
+							, @RequestParam(value = "exampleNo") int[] exampleNo
+							, @RequestParam(value = "exampleOx") String exampleOx) {
+		log.debug(logRed + "modifyQuestion Action");
+		log.debug(logRed + "testNo : " + question.getTestNo());
+		log.debug(logRed + "questionIdx : " + question.getQuestionIdx());
+		log.debug(logRed + "questionTitle : " + question.getQuestionTitle());
+		
+		int row = questionService.modifyQuestion(question, exampleNo, exampleIdx, exampleTitle, exampleOx);
+		
+		if(row != 1) {
+			log.debug(logRed + "문제/보기 수정 실패");
+			re.addFlashAttribute("msg", "MODIFY_ERROR");
+			return "redirect:/teacher/test/testDetail?testNo=" + question.getTestNo();
+		} else {
+			log.debug(logRed + "문제/보기 수정 성공");
+			re.addFlashAttribute("msg", "MODIFY_SUCCESS");
+		}
+		
+		return "redirect:/teacher/test/testDetail?testNo=" + question.getTestNo();
+	}
+	
 	
 	// 문제 삭제
 	@PostMapping("/teacher/test/removeQuestion")

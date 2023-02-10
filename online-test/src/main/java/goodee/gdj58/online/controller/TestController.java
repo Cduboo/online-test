@@ -31,7 +31,7 @@ public class TestController {
 	String logRed = "\u001B[31m";
 	
 	// 시험 삭제
-	@GetMapping("/teacher/test/removeTest")
+	@PostMapping("/teacher/test/removeTest")
 	public String removeTest(HttpSession session
 								, @RequestParam(value = "testNo") int testNo) {
 		log.debug(logRed + "removeTest Action");
