@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import goodee.gdj58.online.mapper.ExampleMapper;
 import goodee.gdj58.online.service.QuestionService;
@@ -53,7 +54,7 @@ public class TestController {
 	}
 	
 	@PostMapping("/teacher/test/addTest")
-	public String addTest(Model model, Test test) {
+	public String addTest(RedirectAttributes re, Test test) {
 		log.debug(logRed + "addTest Action");
 		log.debug(logRed + "testTitle : " + test.testTitle);
 		log.debug(logRed + "testMemo : " + test.testMemo);
@@ -65,9 +66,11 @@ public class TestController {
 		
 		if(row != 1) {
 			log.debug(logRed + "시험 등록 실패");
-			model.addAttribute("errorMsg", "syste error : 시험 등록 실패");
+			re.addFlashAttribute("msg", "ADD_ERROR");
+		} else {
+			log.debug(logRed + "시험 등록 성공");
+			re.addFlashAttribute("msg", "ADD_SUCCESS");
 		}
-		log.debug(logRed + "시험 등록 성공");
 		
 		return "redirect:/teacher/test/testList";
 	}

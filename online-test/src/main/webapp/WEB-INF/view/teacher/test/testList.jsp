@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>TEST LIST</title>
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	</head>
 	<body>
 		<!-- teacherMenu include -->
@@ -42,11 +43,21 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		
 		<%-- <jsp:useBean id="now" class="java.util.Date" />
 		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" var="today" />
 		<c:if test="${today <  '2023-02-03 23:40:00'}">
 			더 큼
 		</c:if> --%>
+		<script>
+			$(function() {
+				let msg = '${msg}';
+				if(msg == 'ADD_SUCCESS') {
+					alert('시험 등록 성공')
+				}
+				if(msg == 'ADD_ERROR') {
+					alert('시험 등록 실패')
+				}
+			});
+		</script>
 	</body>
 </html>
