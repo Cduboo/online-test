@@ -5,22 +5,18 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<title>TEST DETAIL</title>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" />
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 	<body>
-		<div>
-			<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp" />
-		</div>
+		<!-- studentMenu include -->
+		<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp" />
 		
 		<h1>시험지</h1>
 		<!-- 시험 문제 목록 -->
-		<c:if test="${empty questionList}">
-			생성된 문제가 없습니다.
-		</c:if>
-		
 		<c:if test="${not empty questionList}">
 			<form action="${pageContext.request.contextPath}/student/test/addPaper" method="post">
 				<input type="hidden" name="studentNo" value="${loginStudent.studentNo}">
@@ -57,6 +53,11 @@
 						}
 				});
 			</c:forEach>
+			
+			if(${empty questionList}) {
+				alert('생성된 문제가 없습니다.');
+				history.back();
+			}
 		</script>
 	</body>
 </html>

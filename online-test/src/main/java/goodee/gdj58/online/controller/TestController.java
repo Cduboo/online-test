@@ -70,14 +70,6 @@ public class TestController {
 		return "redirect:/teacher/test/testList";
 	}
 	
-	// 시험 등록
-	@GetMapping("/teacher/test/addTest")
-	public String addTest() {
-		log.debug(logRed + "addTest From");
-		
-		return "/teacher/test/addTest";
-	}
-	
 	@PostMapping("/teacher/test/addTest")
 	public String addTest(RedirectAttributes re, Test test) {
 		log.debug(logRed + "addTest Action");

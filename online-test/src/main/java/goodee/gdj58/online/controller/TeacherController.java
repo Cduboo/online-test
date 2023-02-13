@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import goodee.gdj58.online.service.IdService;
 import goodee.gdj58.online.service.TeacherService;
@@ -34,19 +35,9 @@ public class TeacherController {
 	}
 	
 	// 강사 로그인
-	@GetMapping("/loginTeacher")
-	public String loginTeacher(HttpSession session) {
-		log.debug(logRed + "loginTeacher Form");
-		
-		if(session.getAttribute("loginTeacher") != null) {
-			return "redirect:/teacher/teacherMain";
-		}
-		
-		return "/teacher/loginTeacher";
-	}
-	
 	@PostMapping("/loginTeacher")
 	public String loginTeacher(HttpSession session
+								, RedirectAttributes re
 								, Teacher teacher) {
 		log.debug(logRed + "loginStudent Action");
 		
@@ -54,6 +45,7 @@ public class TeacherController {
 		
 		if(resultTeacher == null) {
 			log.debug(logRed + "로그인 실패");
+			re.addFlashAttribute("msg", "LOGIN_ERROR");
 			return "redirect:/loginTeacher";
 		}
 		
@@ -71,7 +63,7 @@ public class TeacherController {
 		session.invalidate();
 		log.debug(logRed + "sessiong invalidate");
 		
-		return "redirect:/loginTeacher";
+		return "redirect:/home";
 	}
 	
 	// 강서 비밀번호 수정

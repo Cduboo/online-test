@@ -37,7 +37,7 @@ public class EmployeeLoginFilter implements Filter{ // 매 컨트롤러마다 �
 			// 직원 비로그인 ---> 로그인 페이지
 			if(session.getAttribute("loginEmployee") == null) {
 				log.debug("\u001B[31m" + "EmployeeLoginFilter : loginEmployee is NULL");
-				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/loginEmployee"); // 로그인(직원,강사,학생) 페이지
+				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/home"); // 로그인(직원,강사,학생) 페이지
 				return;
 			}
 		} else {

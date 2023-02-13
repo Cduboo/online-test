@@ -5,104 +5,115 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<title>TEST DETAIL</title>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" />
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 	<body>
 		<jsp:useBean id="now" class="java.util.Date" />
 		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" var="today" />
 		<!-- teacherMenu include -->
-		<div>
-			<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp" />
+		<c:import url="/WEB-INF/view/teacher/inc/teacherMenu.jsp" />
+		<!-- main -->
+		<div class="container">
+			<h1 class="mt-3">시험 관리</h1>
+			<div class="d-flex justify-content-end mb-3">
+				<c:if test="${empty MOD}">
+					<form action="${pageContext.request.contextPath}/teacher/test/modifyTest" method="get">
+						<input type="hidden" name="testNo" value="${testOne.testNo}">
+						<c:if test="${today >= testOne.startDate && today <= testOne.endDate}">
+							<button class="btn btn-primary" type="button" disabled="disabled">시험 수정</button>
+						</c:if>
+						
+						<c:if test="${today < testOne.startDate || today > testOne.endDate}">			
+							<c:if test="${testOne.paperCountByTest > 0}">
+								<button class="btn btn-primary" type="button" disabled="disabled">시험 수정</button>
+							</c:if>
+							<c:if test="${testOne.paperCountByTest == 0}">
+								<button class="btn btn-primary" type="submit">시험 수정</button> 
+							</c:if>
+						</c:if>
+					</form>
+				</c:if>
+				<c:if test="${empty questionList}">
+					<form action="${pageContext.request.contextPath}/teacher/test/removeTest" method="post">
+						<input type="hidden" name="testNo" value="${testOne.testNo}">
+						<button class="btn btn-secondary ms-1" type="submit">시험 삭제</button>
+					</form>				
+				</c:if>
+				<c:if test="${not empty questionList}">
+					<button class="btn btn-secondary ms-1" type="button" id="deleteTestBtn" onclick="alert('해당 시험에 등록된 문제를 모두 삭제해주세요.')">시험 삭제</button>
+				</c:if>
+			</div>
+			<!-- 시험 수정 -->
+			<c:if test="${empty MOD}">
+				<table class="table table-hover text-center">
+					<thead>
+						<tr class="table-secondary">
+							<th>시험 제목</th>
+							<th>시험 내용</th>
+							<th>시험 기간</th>
+							<th>시험 담당</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>${testOne.testTitle}</td>
+							<td>${testOne.testMemo}</td>
+							<td>${testOne.startDate} ~ ${testOne.endDate}</td>
+							<td>${testOne.teacherName}</td>
+						</tr>
+					</tbody>
+				</table>
+			</c:if>
 		</div>
 		
-		<h1>시험 관리</h1>
-		<c:if test="${empty questionList}">
-			<form action="${pageContext.request.contextPath}/teacher/test/removeTest" method="post">
-				<input type="hidden" name="testNo" value="${testOne.testNo}">
-				<button type="submit">시험 삭제</button>
-			</form>
-		</c:if>
-		<c:if test="${not empty questionList}">
-			<button type="button" id="deleteTestBtn" onclick="alert('해당 시험에 등록된 문제를 모두 삭제해주세요.')">시험 삭제</button>
-		</c:if>
-		<c:if test="${empty MOD}">
-			<form action="${pageContext.request.contextPath}/teacher/test/modifyTest" method="get">
-				<input type="hidden" name="testNo" value="${testOne.testNo}">
-				<c:if test="${today >= testOne.startDate && today <= testOne.endDate}">
-					<button type="button" disabled="disabled">시험 수정</button>
-				</c:if>
-				
-				<c:if test="${today < testOne.startDate || today > testOne.endDate}">			
-					<c:if test="${testOne.paperCountByTest > 0}">
-						<button type="button" disabled="disabled">시험 수정</button>
-					</c:if>
-					<c:if test="${testOne.paperCountByTest == 0}">
-						<button type="submit">시험 수정</button> 
-					</c:if>
-				</c:if>
-			</form>
-		</c:if>
-		
-		<!-- 시험 수정 -->
-		<c:if test="${empty MOD}">
-			<table border="1">
-				<thead>
-					<tr>
-						<th>시험 제목</th>
-						<th>시험 내용</th>
-						<th>시험 기간</th>
-						<th>시험 담당</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>${testOne.testTitle}</td>
-						<td>${testOne.testMemo}</td>
-						<td>${testOne.startDate} ~ ${testOne.endDate}</td>
-						<td>${testOne.teacherName}</td>
-					</tr>
-				</tbody>
-			</table>
-		</c:if>
-		
 		<c:if test="${MOD eq 'MOD_MODIFY'}">
-			<form action="${pageContext.request.contextPath}/teacher/test/modifyTest" method="post">			
-				<input type="hidden" name="testNo" value="${testOne.testNo}">
-				<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}">
-				<h3>시험 정보 등록</h3>
-				<table border="1">
-					<tr>
-						<th>시험명</th>
-						<td><input type="text" name="testTitle" value="${testOne.testTitle}"/></td>
-					</tr>
-					<tr>
-						<th>시험 내용</th>
-						<td><textarea rows="5" cols="50" name="testMemo">${testOne.testMemo}</textarea></td>
-					</tr>
-					<tr>
-						<th>시험 기간</th>
-						<td>
-							<input type="datetime-local" name="startDate" value="${testOne.startDate}"/> ~ 
-							<input type="datetime-local" name="endDate" value="${testOne.endDate}"/>						
-						</td>
-					</tr>
-				</table>
-				<c:if test="${today >= testOne.startDate && today <= testOne.endDate}">
-					<button type="button" disabled="disabled">시험 수정</button>
-				</c:if>
-				
-				<c:if test="${today < testOne.startDate || today > testOne.endDate}">			
-					<c:if test="${testOne.paperCountByTest > 0}">
-						<button type="button" disabled="disabled">시험 수정</button>
+			<div class="container">
+				<form action="${pageContext.request.contextPath}/teacher/test/modifyTest" method="post">			
+					<input type="hidden" name="testNo" value="${testOne.testNo}">
+					<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}">
+					<h3>시험 정보 등록</h3>
+					<table class="table text-center align-middle">
+						<tr>
+							<th class="table-secondary">시험명</th>
+							<td><input class="form-control" type="text" name="testTitle" value="${testOne.testTitle}"/></td>
+						</tr>
+						<tr>
+							<th class="table-secondary">시험 내용</th>
+							<td><textarea class="form-control" rows="5" cols="50" name="testMemo">${testOne.testMemo}</textarea></td>
+						</tr>
+						<tr>
+							<th class="table-secondary">시험 기간</th>
+							<td>
+								<input class="form-control" type="datetime-local" name="startDate" value="${testOne.startDate}"/>
+								<div class="text-center">~</div> 
+								<input class="form-control" type="datetime-local" name="endDate" value="${testOne.endDate}"/>						
+							</td>
+						</tr>
+					</table>
+					<c:if test="${today >= testOne.startDate && today <= testOne.endDate}">
+						<div class="d-grid gap-2">
+							<button class="btn btn-lg btn-primary" type="button" disabled="disabled">시험 수정</button>
+						</div>
 					</c:if>
-					<c:if test="${testOne.paperCountByTest == 0}">
-						<button type="submit">시험 수정</button> 
+					
+					<c:if test="${today < testOne.startDate || today > testOne.endDate}">			
+						<c:if test="${testOne.paperCountByTest > 0}">
+							<div class="d-grid gap-2">
+								<button class="btn btn-lg btn-primary" type="button" disabled="disabled">시험 수정</button>
+							</div>
+						</c:if>
+						<c:if test="${testOne.paperCountByTest == 0}">
+							<div class="d-grid gap-2">
+								<button class="btn btn-lg btn-primary" type="submit">시험 수정</button> 
+							</div>
+						</c:if>
 					</c:if>
-				</c:if>
-			</form>
+				</form>
+			</div>
 		</c:if>
 		
 		<!-- 문제 등록 modal -->
@@ -114,13 +125,13 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-body">
-						<form action="${pageContext.request.contextPath}/teacher/test/addQuestion" method="post">
+						<form class="form form-horizontal px-4 mt-5" action="${pageContext.request.contextPath}/teacher/test/addQuestion" method="post">
 							<!-- 문제 -->
-							<table border="1">
+							<table class="table mt-3">
 								<tr>
 									<td>
-										<input type="hidden" name="testNo" value="${testOne.testNo}"/>
-										문제 번호 <input type="number" name="questionIdx"/>
+										<input class="form-control" type="hidden" name="testNo" value="${testOne.testNo}"/>
+										문제 번호 <input class="form-control" type="number" name="questionIdx"/>
 									</td>
 								</tr>
 								<tr>
@@ -128,40 +139,42 @@
 								</tr>
 								<tr>
 									<td>
-										<textarea rows="5" cols="30" name="questionTitle"></textarea>
+										<textarea class="form-control" rows="5" cols="30" name="questionTitle"></textarea>
 									</td>
 								</tr>
 							</table>	
 							<!-- 보기(객관식) -->
-							<table border="1">
+							<table class="table table-hover mt-3">
 								<tr>
 									<th>번호</th>
 									<th>보기</th>
 									<th>정답여부</th>
 								</tr>
 								<tr>
-									<td><input type="hidden" name="exampleIdx" value="1">보기 1</td>
-									<td><input type="text" name="exampleTitle"/></td>
-									<td><input type="radio" name="exampleOx" value="0"/></td>
+									<td><input class="form-control" type="hidden" name="exampleIdx" value="1">보기 1</td>
+									<td><input class="form-control" type="text" name="exampleTitle"/></td>
+									<td><input class="form-check-input" type="radio" name="exampleOx" value="0"/></td>
 								</tr>
 								<tr>
-									<td><input type="hidden" name="exampleIdx" value="2">보기 2</td>
-									<td><input type="text" name="exampleTitle"/></td>
-									<td><input type="radio" name="exampleOx" value="1"/></td>
+									<td><input class="form-control" type="hidden" name="exampleIdx" value="2">보기 2</td>
+									<td><input class="form-control" type="text" name="exampleTitle"/></td>
+									<td><input class="form-check-input" type="radio" name="exampleOx" value="1"/></td>
 								</tr>
 								<tr>
-									<td><input type="hidden" name="exampleIdx" value="3">보기 3</td>
-									<td><input type="text" name="exampleTitle"/></td>
-									<td><input type="radio" name="exampleOx" value="2"/></td>
+									<td><input class="form-control" type="hidden" name="exampleIdx" value="3">보기 3</td>
+									<td><input class="form-control" type="text" name="exampleTitle"/></td>
+									<td><input class="form-check-input" type="radio" name="exampleOx" value="2"/></td>
 								</tr>
 								<tr>
-									<td><input type="hidden" name="exampleIdx" value="4">보기 4</td>
-									<td><input type="text" name="exampleTitle"/></td>
-									<td><input type="radio" name="exampleOx" value="3"></td>
+									<td><input class="form-control" type="hidden" name="exampleIdx" value="4">보기 4</td>
+									<td><input class="form-control" type="text" name="exampleTitle"/></td>
+									<td><input class="form-check-input" type="radio" name="exampleOx" value="3"></td>
 								</tr>
 							</table>
-							<button type="submit">등록</button>
-							<button type="button" data-bs-dismiss="modal">취소</button>
+							<div class="d-grid gap-2">
+								<button class="btn btn-lg btn-primary" type="submit">등록</button>
+								<button class="btn btn-lg btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
+							</div>
 						</form>
 					</div>
 				</div>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import goodee.gdj58.online.service.IdService;
 import goodee.gdj58.online.service.StudentService;
@@ -34,19 +35,9 @@ public class StudentController {
 	}
 	
 	// 학생 로그인
-	@GetMapping("/loginStudent")
-	public String loginStudent(HttpSession session) {
-		log.debug(logRed + "loginStudent Form");
-		
-		if(session.getAttribute("loginStudent") != null) {
-			return "redirect:/student/studentMain";
-		}
-		
-		return "/student/loginStudent";
-	}
-	
 	@PostMapping("/loginStudent")
 	public String loginStudent(HttpSession session
+								, RedirectAttributes re
 								, Student student) {
 		log.debug(logRed + "loginStudent Action");
 		
@@ -54,6 +45,7 @@ public class StudentController {
 		
 		if(resultStudent == null) {
 			log.debug(logRed + "로그인 실패");
+			re.addFlashAttribute("msg", "LOGIN_ERROR");
 			return "redirect:/loginStudent";
 		}
 		
@@ -71,7 +63,7 @@ public class StudentController {
 		session.invalidate();
 		log.debug(logRed + "sessiong invalidate");
 		
-		return "redirect:/loginStudent";
+		return "redirect:/home";
 	}
 	
 	// 학생 비밀번호 수정

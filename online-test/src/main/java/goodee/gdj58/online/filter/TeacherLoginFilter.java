@@ -31,7 +31,7 @@ public class TeacherLoginFilter implements Filter {
 			// 강사 비로그인 ---> 로그인 페이지
 			if(session.getAttribute("loginTeacher") == null) {
 				log.debug("\u001B[31m" + "TeacherLoginFilter : loginTeacher is NULL");
-				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/loginTeacher");
+				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/home");
 				return;
 			} 
 		} else {

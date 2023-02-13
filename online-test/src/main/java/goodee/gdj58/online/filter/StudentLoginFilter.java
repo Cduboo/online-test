@@ -31,7 +31,7 @@ public class StudentLoginFilter implements Filter {
 			// 학생 비로그인 ---> 로그인 페이지
 			if(session.getAttribute("loginStudent") == null) {
 				log.debug("\u001B[31m" + "StudentLoginFilter : loginStudent is NULL");
-				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/loginStudent");
+				((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/home");
 				return;
 			}
 		} else {

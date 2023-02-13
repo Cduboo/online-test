@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import goodee.gdj58.online.service.EmployeeService;
 import goodee.gdj58.online.service.IdService;
@@ -64,22 +65,18 @@ public class EmployeeController {
 	}
 	
 	// 직원 로그인 
-	@GetMapping("/loginEmployee") // filter (/employee/*)로 인해 /loginEmployee
-	public String loginEmployee() {
-		log.debug(logRed + "loginEmployee Form");
-		
-		return "/employee/loginEmployee";
-	}
-	
 	@PostMapping("/loginEmployee")
-	public String loginEmployee(HttpSession session, @ModelAttribute Employee employee /*Employee employee*/) {
+	public String loginEmployee(HttpSession session
+									, RedirectAttributes re
+									, @ModelAttribute Employee employee /*Employee employee*/) {
 		log.debug(logRed + "loginEmployee Action");
 	
 		Employee resultEmployee = employeeService.login(employee);
 		
 		if(resultEmployee == null) {
 			log.debug(logRed + "로그인 실패");
-			return "redirect:/employee/loginEmployee";
+			re.addFlashAttribute("msg", "LOGIN_ERROR");
+			return "redirect:/loginEmployee";
 		}
 		
 		session.setAttribute("loginEmployee", resultEmployee);
@@ -95,7 +92,7 @@ public class EmployeeController {
 		session.invalidate();
 		log.debug(logRed + "sessiong invalidate");
 		
-		return "redirect:/loginEmployee";
+		return "redirect:/home";
 	}
 	
 	// 직원 삭제
