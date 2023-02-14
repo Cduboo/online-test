@@ -76,21 +76,21 @@
 					<input type="hidden" name="testNo" value="${testOne.testNo}">
 					<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}">
 					<h3>시험 정보 등록</h3>
-					<table class="table text-center align-middle">
+					<table class="table table-bordered text-center align-middle">
 						<tr>
-							<th class="table-secondary">시험명</th>
-							<td><input class="form-control" type="text" name="testTitle" value="${testOne.testTitle}"/></td>
+							<th class="text-bg-light">시험명</th>
+							<td><input class="form-control form-control-sm" type="text" name="testTitle" value="${testOne.testTitle}"/></td>
 						</tr>
 						<tr>
-							<th class="table-secondary">시험 내용</th>
-							<td><textarea class="form-control" rows="5" cols="50" name="testMemo">${testOne.testMemo}</textarea></td>
+							<th class="text-bg-light">시험 내용</th>
+							<td><textarea class="form-control form-control-sm" rows="5" cols="50" name="testMemo">${testOne.testMemo}</textarea></td>
 						</tr>
 						<tr>
-							<th class="table-secondary">시험 기간</th>
+							<th class="text-bg-light">시험 기간</th>
 							<td>
-								<input class="form-control" type="datetime-local" name="startDate" value="${testOne.startDate}"/>
+								<input class="form-control form-control-sm" type="datetime-local" name="startDate" value="${testOne.startDate}"/>
 								<div class="text-center">~</div> 
-								<input class="form-control" type="datetime-local" name="endDate" value="${testOne.endDate}"/>						
+								<input class="form-control form-control-sm" type="datetime-local" name="endDate" value="${testOne.endDate}"/>						
 							</td>
 						</tr>
 					</table>
@@ -115,75 +115,78 @@
 				</form>
 			</div>
 		</c:if>
-		
-		<!-- 문제 등록 modal -->
-		<button type="button" data-bs-toggle="modal" data-bs-target="#addQuestion">문제 등록</button>
-		<!-- Modal -->
-		<div class="modal fade" id="addQuestion" data-bs-backdrop="static"
-			data-bs-keyboard="false" tabindex="-1"
-			aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-body">
-						<form class="form form-horizontal px-4 mt-5" action="${pageContext.request.contextPath}/teacher/test/addQuestion" method="post">
-							<!-- 문제 -->
-							<table class="table mt-3">
-								<tr>
-									<td>
-										<input class="form-control" type="hidden" name="testNo" value="${testOne.testNo}"/>
-										문제 번호 <input class="form-control" type="number" name="questionIdx"/>
-									</td>
-								</tr>
-								<tr>
-									<td>문제 설명</td>
-								</tr>
-								<tr>
-									<td>
-										<textarea class="form-control" rows="5" cols="30" name="questionTitle"></textarea>
-									</td>
-								</tr>
-							</table>	
-							<!-- 보기(객관식) -->
-							<table class="table table-hover mt-3">
-								<tr>
-									<th>번호</th>
-									<th>보기</th>
-									<th>정답여부</th>
-								</tr>
-								<tr>
-									<td><input class="form-control" type="hidden" name="exampleIdx" value="1">보기 1</td>
-									<td><input class="form-control" type="text" name="exampleTitle"/></td>
-									<td><input class="form-check-input" type="radio" name="exampleOx" value="0"/></td>
-								</tr>
-								<tr>
-									<td><input class="form-control" type="hidden" name="exampleIdx" value="2">보기 2</td>
-									<td><input class="form-control" type="text" name="exampleTitle"/></td>
-									<td><input class="form-check-input" type="radio" name="exampleOx" value="1"/></td>
-								</tr>
-								<tr>
-									<td><input class="form-control" type="hidden" name="exampleIdx" value="3">보기 3</td>
-									<td><input class="form-control" type="text" name="exampleTitle"/></td>
-									<td><input class="form-check-input" type="radio" name="exampleOx" value="2"/></td>
-								</tr>
-								<tr>
-									<td><input class="form-control" type="hidden" name="exampleIdx" value="4">보기 4</td>
-									<td><input class="form-control" type="text" name="exampleTitle"/></td>
-									<td><input class="form-check-input" type="radio" name="exampleOx" value="3"></td>
-								</tr>
-							</table>
-							<div class="d-grid gap-2">
-								<button class="btn btn-lg btn-primary" type="submit">등록</button>
-								<button class="btn btn-lg btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
+		<div class="d-flex justify-content-center">
+			<!-- 문제 등록 modal -->
+			<button type="button" class="btn btn-sm btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#addQuestion">문제 등록</button>
+			<!-- Modal -->
+			<div class="modal fade" id="addQuestion" data-bs-backdrop="static"
+				data-bs-keyboard="false" tabindex="-1"
+				aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content rounded-0">
+						<div class="modal-body container">
+							<div class="clearfix shadow text-white bg-primary p-2">
+								<span class="float-start">문제 관리</span>
+								<span class="float-end"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></span>
 							</div>
-						</form>
+							<form class="form form-horizontal p-4" action="${pageContext.request.contextPath}/teacher/test/addQuestion" method="post">
+								<!-- 문제 -->
+								<table class="table table-bordered">
+									<tr>
+										<td class="text-bg-light">문제 번호</td>
+										<td>
+											<input class="form-control" type="hidden" name="testNo" value="${testOne.testNo}"/>
+											<input class="form-control form-control-sm" type="number" name="questionIdx"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-bg-light">문제 설명</td>
+										<td>
+											<textarea class="form-control" rows="5" cols="30" name="questionTitle"></textarea>
+										</td>
+									</tr>
+								</table>	
+								<!-- 보기(객관식) -->
+								<table class="table table-bordered table-hover mt-3">
+									<tr>
+										<th class="text-bg-light text-center">번호</th>
+										<th class="text-bg-light text-center">보기</th>
+										<th class="text-bg-light text-center">정답여부</th>
+									</tr>
+									<tr>
+										<td class="text-bg-light"><input class="form-control" type="hidden" name="exampleIdx" value="1">보기 1</td>
+										<td><input class="form-control form-control-sm" type="text" name="exampleTitle"/></td>
+										<td><input class="form-check-input" type="radio" name="exampleOx" value="0"/></td>
+									</tr>
+									<tr>
+										<td class="text-bg-light"><input class="form-control" type="hidden" name="exampleIdx" value="2">보기 2</td>
+										<td><input class="form-control form-control-sm" type="text" name="exampleTitle"/></td>
+										<td><input class="form-check-input" type="radio" name="exampleOx" value="1"/></td>
+									</tr>
+									<tr>
+										<td class="text-bg-light"><input class="form-control" type="hidden" name="exampleIdx" value="3">보기 3</td>
+										<td><input class="form-control form-control-sm" type="text" name="exampleTitle"/></td>
+										<td><input class="form-check-input " type="radio" name="exampleOx" value="2"/></td>
+									</tr>
+									<tr>
+										<td class="text-bg-light"><input class="form-control" type="hidden" name="exampleIdx" value="4">보기 4</td>
+										<td><input class="form-control form-control-sm" type="text" name="exampleTitle"/></td>
+										<td><input class="form-check-input" type="radio" name="exampleOx" value="3"></td>
+									</tr>
+								</table>
+								<div class="d-grid gap-2">
+									<button class="btn btn-lg btn-primary" type="submit">등록</button>
+									<button class="btn btn-lg btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
 		<!-- 시험 문제 목록 -->
 		<c:if test="${empty questionList}">
-			생성된 문제가 없습니다.
+			<div class="d-flex justify-content-center mt-5">생성된 문제가 없습니다.</div>
 		</c:if>
 		<c:if test="${not empty questionList}">
 			<c:forEach var="q" items="${questionList}">
@@ -191,66 +194,73 @@
 					<div>
 						${q.questionIdx}번 ${q.questionTitle}
 						<!-- 문제 수정 modal -->
-						<button type="button" data-bs-toggle="modal" data-bs-target="#${q.questionNo}">문제 관리</button>		
+						<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#${q.questionNo}">문제 관리</button>		
 						<!-- Modal -->
 						<div class="modal fade" id="${q.questionNo}" data-bs-backdrop="static"
 							data-bs-keyboard="false" tabindex="-1"
 							aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-body">
+								<div class="modal-content rounded-0">
+									<div class="modal-body container">
+										<div class="clearfix shadow text-white bg-primary p-2">
+											<span class="float-start">문제 관리</span>
+											<span class="float-end"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></span>
+										</div>
 										<form action="${pageContext.request.contextPath}/teacher/test/removeQuestion" method="post">
-											<button type="submit">문제 삭제</button>
+											<div class="d-grid gap-2">
+												<button class="btn btn-sm btn-secondary float-end mt-3" type="submit">문제 삭제</button>
+											</div>
 										</form>
-										<form action="${pageContext.request.contextPath}/teacher/test/modifyQuestion" method="post">
+										<form class="form form-horizontal p-4" action="${pageContext.request.contextPath}/teacher/test/modifyQuestion" method="post">
 											<input type="hidden" name="testNo" value="${testOne.testNo}"/>
 											<input type="hidden" name="questionNo" value="${q.questionNo}">											
 											<!-- 문제 -->
-											<table border="1">
+											<table class="table table-bordered">
 												<tr>
+													<th class="text-bg-light">문제 번호</th>
 													<td>
 														<input type="hidden" name="testNo" value="${testOne.testNo}"/>
-														문제 번호 <input type="number" name="questionIdx" value="${q.questionIdx}"/>
+														<input class="form-control form-control-sm" type="number" name="questionIdx" value="${q.questionIdx}"/>
 													</td>
 												</tr>
 												<tr>
-													<td>문제 설명</td>
-												</tr>
-												<tr>
+													<th class="text-bg-light">문제 설명</th>
 													<td>
-														<textarea rows="5" cols="30" name="questionTitle">${q.questionTitle}</textarea>
+														<textarea class="form-control form-control-sm" rows="5" cols="30" name="questionTitle">${q.questionTitle}</textarea>
 													</td>
 												</tr>
 											</table>
 											<!-- 보기(객관식) -->
-											<table border="1">
+											<table class="table table-bordered table-hover mt-3">
 												<tr>
-													<th>번호</th>
-													<th>보기</th>
-													<th>정답여부</th>
+													<th class="text-bg-light text-center">번호</th>
+													<th class="text-bg-light text-center">보기</th>
+													<th class="text-bg-light text-center">정답여부</th>
 												</tr>
 												<c:forEach var="e" items="${questionList}">
 													<c:if test="${q.questionNo eq e.questionNo}">
 														<tr>
-															<td>
+															<td class="text-bg-light text-center">
 																<input type="hidden" name="exampleNo" value="${e.exampleNo}">
 																<input type="hidden" name="exampleIdx" value="${e.exampleIdx}">보기 ${e.exampleIdx}
 															</td>
-															<td><input type="text" name="exampleTitle" value="${e.exampleTitle}"/></td>
+															<td><input class="form-control form-control-sm" type="text" name="exampleTitle" value="${e.exampleTitle}"/></td>
 															<td>
 																<c:if test="${e.exampleOx eq '정답'}">
-																	<input type="radio" name="exampleOx" value="${e.exampleIdx -1}" checked="checked"/>
+																	<input class="form-control form-control-sm" type="radio" name="exampleOx" value="${e.exampleIdx -1}" checked="checked"/>
 																</c:if>
 																<c:if test="${e.exampleOx eq '오답'}">
-																	<input type="radio" name="exampleOx" value="${e.exampleIdx -1}"/>
+																	<input class="form-control form-control-sm" type="radio" name="exampleOx" value="${e.exampleIdx -1}"/>
 																</c:if>
 															</td>
 														</tr>
 													</c:if>
 												</c:forEach>
 											</table>
-											<button type="submit">수정</button>
-											<button type="button" onClick="window.location.reload()">취소</button>
+											<div class="d-grid gap-2">
+												<button class="btn btn-lg btn-primary" type="submit">수정</button>
+												<button class="btn btn-lg btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
+											</div>
 										</form>
 									</div>
 								</div>

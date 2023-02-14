@@ -22,31 +22,35 @@
 			</c:if>
 			<div class="d-flex justify-content-end mb-3">				
 				<!-- 시험 등록 modal -->
-				<button class="btn btn-primary" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addTest">시험 등록</button>
+				<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addTest">시험 등록</button>
 				<!-- Modal -->
 				<div class="modal fade" id="addTest" data-bs-backdrop="static"
 					data-bs-keyboard="false" tabindex="-1"
 					aria-labelledby="staticBackdropLabel" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-body">
-								<form class="form form-horizontal px-4 mt-5" action="${pageContext.request.contextPath}/teacher/test/addTest" method="post">
+						<div class="modal-content rounded-0">
+							<div class="modal-body container">
+								<div class="clearfix shadow text-white bg-primary p-2">
+									<span class="float-start">시험 관리</span>
+									<span class="float-end"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></span>
+								</div>
+								<form class="form form-horizontal p-4" action="${pageContext.request.contextPath}/teacher/test/addTest" method="post">
 									<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}">
-									<table class="table mt-3">
+									<table class="table table-bordered">
 										<tr>
-											<th>시험명</th>
-											<td><input class="form-control" type="text" name="testTitle"/></td>
+											<th class="text-bg-light">시험명</th>
+											<td><input class="form-control form-control-sm" type="text" name="testTitle"/></td>
 										</tr>
 										<tr>
-											<th>시험 내용</th>
-											<td><textarea class="form-control" rows="5" cols="50" name="testMemo"></textarea></td>
+											<th class="text-bg-light">시험 내용</th>
+											<td><textarea class="form-control form-control-sm" rows="5" cols="50" name="testMemo"></textarea></td>
 										</tr>
 										<tr>
-											<th>시험 기간</th>
+											<th class="text-bg-light">시험 기간</th>
 											<td>
-												<input class="form-control" type="datetime-local" name="startDate"/>
+												<input class="form-control form-control-sm" type="datetime-local" name="startDate"/>
 												<div class="text-center m-1">~</div> 
-												<input class="form-control" type="datetime-local" name="endDate"/>						
+												<input class="form-control form-control-sm" type="datetime-local" name="endDate"/>						
 											</td>
 										</tr>
 									</table>
