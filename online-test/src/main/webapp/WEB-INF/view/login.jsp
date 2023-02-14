@@ -35,7 +35,7 @@
 														<div class="form-group has-icon-left">
 															<label for="id">아이디</label>
 															<div class="position-relative mt-1">
-																<input type="text" name="employeeId" id="employeeId" class="form-control" placeholder="아이디">
+																<input type="text" name="employeeId" id="employeeId" value="admin" class="form-control" placeholder="아이디">
 																<div class="form-control-icon">
 																	<i class="bi bi-person"></i>
 																</div>
@@ -46,7 +46,7 @@
 														<div class="form-group has-icon-left">
 															<label for="pw">비밀번호</label>
 															<div class="position-relative mt-1">
-																<input type="password" name="employeePw" id="employeePw" class="form-control" placeholder="비밀번호">
+																<input type="password" name="employeePw" id="employeePw" value="1234" class="form-control" placeholder="비밀번호">
 																<div class="form-control-icon">
 																	<i class="bi bi-lock"></i>
 																</div>
@@ -71,7 +71,7 @@
 														<div class="form-group has-icon-left">
 															<label for="id">아이디</label>
 															<div class="position-relative mt-1">
-																<input type="text" name="teacherId" id="teacherId" class="form-control" placeholder="아이디">
+																<input type="text" name="teacherId" id="teacherId" value="t1" class="form-control" placeholder="아이디">
 																<div class="form-control-icon">
 																	<i class="bi bi-person"></i>
 																</div>
@@ -82,7 +82,7 @@
 														<div class="form-group has-icon-left">
 															<label for="pw">비밀번호</label>
 															<div class="position-relative mt-1">
-																<input type="password" name="teacherPw" id="teacherPw" class="form-control" placeholder="비밀번호">
+																<input type="password" name="teacherPw" id="teacherPw" value="1234" class="form-control" placeholder="비밀번호">
 																<div class="form-control-icon">
 																	<i class="bi bi-lock"></i>
 																</div>
@@ -107,7 +107,7 @@
 														<div class="form-group has-icon-left">
 															<label for="id">아이디</label>
 															<div class="position-relative mt-1">
-																<input type="text" name="studentId" id="studentId" class="form-control" placeholder="아이디">
+																<input type="text" name="studentId" id="studentId" value="s1" class="form-control" placeholder="아이디">
 																<div class="form-control-icon">
 																	<i class="bi bi-person"></i>
 																</div>
@@ -118,7 +118,7 @@
 														<div class="form-group has-icon-left">
 															<label for="pw">비밀번호</label>
 															<div class="position-relative mt-1">
-																<input type="password" name="studentPw" id="studentPw" class="form-control" placeholder="비밀번호">
+																<input type="password" name="studentPw" id="studentPw" value="1234" class="form-control" placeholder="비밀번호">
 																<div class="form-control-icon">
 																	<i class="bi bi-lock"></i>
 																</div>

@@ -17,7 +17,7 @@ public class HomeController {
 		if(session.getAttribute("loginEmployee") != null) {
 			return "redirect:/employee/employeeMain";
 		}
-		if(session.getAttribute("loginteacher") != null) {
+		if(session.getAttribute("loginTeacher") != null) {
 			return "redirect:/teacher/teacherMain";
 		}
 		if(session.getAttribute("loginStudent") != null) {
