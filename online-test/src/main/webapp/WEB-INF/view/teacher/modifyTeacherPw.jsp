@@ -20,7 +20,7 @@
 					<div class="card mt-3 p-3">
 						<div class="card-body">
 							<h1 class="mt-3">비밀번호 수정</h1>
-							<span>${errorMsg}</span>
+							<span class="text-danger">${errorMsg}</span>
 							<form class="form form-horizontal px-4 mt-5" action="${pageContext.request.contextPath}/teacher/modifyTeacherPw" method="post">
 								<table class="table table-hover mt-3">
 									<tr>

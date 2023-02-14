@@ -16,33 +16,38 @@
 			<c:import url="/WEB-INF/view/student/inc/studentMenu.jsp" />
 		</div>
 		
-		<h1>시험 결과</h1>
-		<c:forEach var="tr" items="${testResult}">	
-			<c:if test="${tr.questionIdx == 1}">
-				<div>시험명 : ${tr.testTitle}</div>
-			</c:if> 
-		</c:forEach>
-		<table border="1">
-			<tr>
-				<th>문제 번호</th>
-				<th>정답</th>
-				<th>제출답안</th>
-				<th>정답여부</th>
-			</tr>
-			<c:set var="i" value="0"/>			
-			<c:forEach var="tr" items="${testResult}">
-				<tr>
-					<td>${tr.questionIdx}</td>
-					<td>${tr.exampleIdx}</td>
-					<td>${tr.answer}</td>
-					<td>
-						<c:set var="v" value="${tr.exampleIdx eq tr.answer ? 'O' : 'X' }"></c:set>
-						<c:out value="${v}"></c:out>
-					</td>
-				</tr>
-				<c:set var="i" value="${i = i+1}"/>
+		<div class="container">
+			<h1 class="mt-5">시험 결과</h1>
+			<c:forEach var="tr" items="${testResult}">	
+				<c:if test="${tr.questionIdx == 1}">
+					<div>${tr.testTitle}</div>
+				</c:if> 
 			</c:forEach>
-		</table>
-		<div>내 점수 : ${100 / i eq 'Infinity' ? '' : 100/i}점</div>
+			<table class="table table-bordered text-center">
+				<tr>
+					<th class="text-bg-light">문제 번호</th>
+					<th class="text-bg-light">정답</th>
+					<th class="text-bg-light">제출답안</th>
+					<th class="text-bg-light">정답여부</th>
+				</tr>
+				<c:set var="i" value="0"/>			
+				<c:forEach var="tr" items="${testResult}">
+					<tr>
+						<td>${tr.questionIdx}</td>
+						<td>${tr.exampleIdx}</td>
+						<td>
+							<c:set var="answer" value="${tr.answer eq 0 ? 'X' : tr.answer}"/>
+							<c:out value="${answer}"></c:out>
+						</td>
+						<td>
+							<c:set var="v" value="${tr.exampleIdx eq tr.answer ? 'O' : 'X' }"></c:set>
+							<c:out value="${v}"></c:out>
+						</td>
+					</tr>
+					<c:set var="i" value="${i = i+1}"/>
+				</c:forEach>
+			</table>
+			<div>내 점수 : ${100 / i eq 'Infinity' ? '' : 100/i}점</div>
+		</div>
 	</body>
 </html>

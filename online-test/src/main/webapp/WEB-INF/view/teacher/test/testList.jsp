@@ -35,22 +35,22 @@
 									<span class="float-end"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></span>
 								</div>
 								<form class="form form-horizontal p-4" action="${pageContext.request.contextPath}/teacher/test/addTest" method="post">
-									<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}">
+									<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}" required="required">
 									<table class="table table-bordered">
 										<tr>
 											<th class="text-bg-light">시험명</th>
-											<td><input class="form-control form-control-sm" type="text" name="testTitle"/></td>
+											<td><input class="form-control form-control-sm" type="text" name="testTitle" required="required"/></td>
 										</tr>
 										<tr>
 											<th class="text-bg-light">시험 내용</th>
-											<td><textarea class="form-control form-control-sm" rows="5" cols="50" name="testMemo"></textarea></td>
+											<td><textarea class="form-control form-control-sm" rows="5" cols="50" name="testMemo" required="required"></textarea></td>
 										</tr>
 										<tr>
 											<th class="text-bg-light">시험 기간</th>
 											<td>
-												<input class="form-control form-control-sm" type="datetime-local" name="startDate"/>
+												<input class="form-control form-control-sm" type="datetime-local" name="startDate" required="required"/>
 												<div class="text-center m-1">~</div> 
-												<input class="form-control form-control-sm" type="datetime-local" name="endDate"/>						
+												<input class="form-control form-control-sm" type="datetime-local" name="endDate" required="required"/>						
 											</td>
 										</tr>
 									</table>

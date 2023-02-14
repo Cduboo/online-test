@@ -88,7 +88,7 @@ public class TeacherController {
 			log.debug(logRed + "강사 비밀번호 수정 실패");
 			model.addAttribute("errorMsg", "비밀번호를 확인해주세요.");
 			
-			return "/student/modifyStudentPw";
+			return "/teacher/modifyTeacherPw";
 		}
 		log.debug(logRed + "강사 비밀번호 수정 성공");
 		

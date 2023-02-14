@@ -25,15 +25,16 @@
 								<table class="table table-hover mt-3">
 									<tr>
 										<td>아이디</td>
-										<td><input class="form-control" type="text" name="studentId"/></td>
+										<td><input id="id" class="form-control" type="text" name="studentId" required="required"/></td>
+										<td><button class="btn btn-secondary" id="idCkBtn" type="button">중복검사</button></td>
 									</tr>
 									<tr>
 										<td>이름</td>
-										<td><input class="form-control" type="text" name="studentName"/></td>
+										<td><input class="form-control" type="text" name="studentName" required="required"/></td>
 									</tr>
 									<tr>
 										<td>비밀번호</td>
-										<td><input class="form-control" type="password" name="studentPw"/></td>
+										<td><input class="form-control" type="password" name="studentPw" required="required"/></td>
 									</tr>
 								</table>
 								<div class="d-grid gap-2">
@@ -44,6 +45,29 @@
 					</div>
 				</div>
 			</section>
-		</div>		
+		</div>
+		<script>
+			$(function() {
+				$('#idCkBtn').click(function() {
+					if($('#id').val().length < 1) {
+						alert('아이디를 입력해주세요.');
+						return;
+					}
+					
+					$.ajax({
+						url : '${pageContext.request.contextPath}/employee/idCk',
+						type : 'get',
+						data : {id : $('#id').val()},
+						success : function(data) {
+							if(!data) {
+								alert('사용 가능한 아이디 입니다.')
+							} else {
+								alert('이미 사용중인 아이디 입니다.')
+							}
+						}
+					});
+				})
+			});
+		</script>	
 	</body>
 </html>
