@@ -189,14 +189,14 @@
 		<c:if test="${empty questionList}">
 			<div class="d-flex justify-content-center mt-5">생성된 문제가 없습니다.</div>
 		</c:if>
-		<div class="container">
+		<div class="container" style="column-count:2; gap: 100px; column-rule: 1px solid #ced4da;">
 			<c:if test="${not empty questionList}">
 				<c:forEach var="q" items="${questionList}">
 					<c:if test="${q.exampleIdx == 1 || q.exampleIdx == null}">
-						<div class="col-6 mt-3">
-							${q.questionIdx}번 ${q.questionTitle}
+						<div class="col-12 mt-3 mb-3">
+							<span class="fw-bold">${q.questionIdx}. ${q.questionTitle}</span>
 							<!-- 문제 수정 modal -->
-							<button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#${q.questionNo}">문제 관리</button>		
+							<button class="btn btn-sm btn-primary float-end" type="button" data-bs-toggle="modal" data-bs-target="#${q.questionNo}">문제 관리</button>		
 							<!-- Modal -->
 							<div class="modal fade" id="${q.questionNo}" data-bs-backdrop="static"
 								data-bs-keyboard="false" tabindex="-1"
@@ -271,10 +271,53 @@
 						</div>
 					</c:if>
 					<c:if test="${q.exampleIdx != null}">
-						<c:set var="ox" value="${q.exampleOx eq '정답' ? '✔' : ''}"/> 
-						<div>${q.exampleIdx} ) ${q.exampleTitle} <c:out value="${ox}" /></div>
-						<input type="hidden" name="testNo" value="${testOne.testNo}"/>
-						<input type="hidden" name="exampleNo" value="${q.exampleNo}">
+						<div class="px-3">
+							<div>
+								<c:if test="${q.exampleIdx == 1}">
+									<span style="position: relative;">
+										①
+										<c:if test="${q.exampleOx eq '정답'}">
+											<span style="position: absolute; top: -3px; left: -1px;">
+												<img alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
+											</span>
+										</c:if>
+									</span>
+								</c:if>
+								<c:if test="${q.exampleIdx == 2}">
+									<span style="position: relative;">
+										②
+										<c:if test="${q.exampleOx eq '정답'}">
+											<span style="position: absolute; top: -3px; left: -1px;">
+												<img alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
+											</span>
+										</c:if>
+									</span>
+								</c:if>
+								<c:if test="${q.exampleIdx == 3}">
+									<span style="position: relative;">
+										③
+										<c:if test="${q.exampleOx eq '정답'}">
+											<span style="position: absolute; top: -3px; left: -1px;">
+												<img alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
+											</span>
+										</c:if>
+									</span>
+								</c:if>
+								<c:if test="${q.exampleIdx == 4}">
+									<span style="position: relative;">
+										④
+										<c:if test="${q.exampleOx eq '정답'}">
+											<span style="position: absolute; top: -3px; left: -1px;">
+												<img alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
+											</span>
+										</c:if>
+									</span>
+								</c:if>
+								${q.exampleTitle}
+							</div>
+							<input type="hidden" name="testNo" value="${testOne.testNo}"/>
+							<input type="hidden" name="exampleNo" value="${q.exampleNo}">
+						</div>
 					</c:if>
 					<c:if test="${q.exampleIdx == null}">
 						등록된 보기가 없습니다.

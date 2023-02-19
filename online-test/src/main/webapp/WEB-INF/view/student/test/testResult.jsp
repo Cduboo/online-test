@@ -31,7 +31,8 @@
 					<th class="text-bg-light">정답여부</th>
 				</tr>
 				<c:set var="i" value="0"/>			
-				<c:forEach var="tr" items="${testResult}">
+				<c:set var="j" value="0"/>			
+				<c:forEach var="tr" items="${testResult}" varStatus="status">
 					<tr>
 						<td>${tr.questionIdx}</td>
 						<td>${tr.exampleIdx}</td>
@@ -45,9 +46,12 @@
 						</td>
 					</tr>
 					<c:set var="i" value="${i = i+1}"/>
+					<c:if test="${v eq 'O'}">
+						<c:set var="j" value="${j = j+1}"/>
+					</c:if>
 				</c:forEach>
 			</table>
-			<div>내 점수 : ${100 / i eq 'Infinity' ? '' : 100/i}점</div>
+			<div>내 점수: ${100/i*j}점</div>
 		</div>
 	</body>
 </html>
