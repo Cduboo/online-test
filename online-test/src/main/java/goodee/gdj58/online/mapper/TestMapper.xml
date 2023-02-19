@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="goodee.gdj58.online.mapper.TestMapper">
+	<!-- 월별 시험 개수 -->
+	<select id="selectTestCountOfMonthsInYear" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			COUNT(*) count
+			, year(start_date) year
+			, MONTH(start_date) month
+		FROM test 
+		WHERE year(start_date) = #{year} 
+		GROUP BY month(start_date)
+	</select>
+
 	<!-- 해당 시험 제출한 답안지 개수 -->
 	<select id="selectPaperCountByTest" parameterType="int" resultType="int">
 		SELECT COUNT(*) FROM test t 

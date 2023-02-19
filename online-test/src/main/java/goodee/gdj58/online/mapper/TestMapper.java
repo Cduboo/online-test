@@ -9,6 +9,7 @@ import goodee.gdj58.online.vo.Test;
 
 @Mapper
 public interface TestMapper {
+	List<Map<String, Object>> selectTestCountOfMonthsInYear(int year);
 	int selectPaperCountByTest(int testNo);
 	int updateTest(Test test);
 	int deleteTest(Map<String, Object> paramMap);

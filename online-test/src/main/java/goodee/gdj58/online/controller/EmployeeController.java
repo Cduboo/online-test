@@ -1,6 +1,8 @@
 package goodee.gdj58.online.controller;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,16 +23,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class EmployeeController {
-	@Autowired
-	EmployeeService employeeService;
+	@Autowired EmployeeService employeeService;
+	
 	@Autowired
 	IdService idService; // 트랜잭션 처리 시 service단으로
 	String logRed = "\u001B[31m";
 	
 	// 직원 메인 페이지
 	@GetMapping("/employee/employeeMain")
-	public String getEmployeeMain() {
+	public String getEmployeeMain(Model model) {
 		log.debug(logRed + "employee Form");
+		
+		Map<String, Object> totalCount = employeeService.getTotalCount();
+		List<List<Map<String, Object>>> recentList = employeeService.getRecnetList();
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("recentList", recentList);
+		model.addAttribute("year", year);
 		
 		return "/employee/employeeMain";
 	}

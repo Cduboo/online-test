@@ -20,6 +20,11 @@ public class TestService {
 	@Autowired
 	private PaperMapper paperMapper;
 	
+	// 년도별 각 월의 시험 개수
+	public List<Map<String, Object>> getTestCountOfMonthsInYear(int year) {
+		return testMapper.selectTestCountOfMonthsInYear(year);
+	}
+	
 	// 시험 수정
 	public int modifyTest(Test test) {
 		return testMapper.updateTest(test);
