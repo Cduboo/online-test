@@ -19,24 +19,28 @@
 			<div class="d-flex justify-content-end mb-3">
 				<a class="btn btn-primary" href="${pageContext.request.contextPath}/employee/addEmployee">직원 등록</a>
 			</div>
-			<table id="table" class="table table-hover text-center">
-				<thead>
-					<tr class="table-secondary">
-						<th>아이디</th>
-						<th>이름</th>
-						<th style="width: 10%">삭제</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="e" items="${employeeList}">
-						<tr>
-							<td>${e.employeeId}</td>
-							<td>${e.employeeName}</td>
-							<td><a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/employee/removeEmployee?employeeNo=${e.employeeNo}">삭제</a></td>
+			<form id="rvForm" action="${pageContext.request.contextPath}/employee/removeEmployee" method="post">
+				<table id="table" class="table table-hover text-center">
+					<thead>
+						<tr class="table-secondary">
+							<th>아이디</th>
+							<th>이름</th>
+							<th style="width: 10%">삭제</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<c:forEach var="e" items="${employeeList}">
+							<tr>
+								<td>${e.employeeId}</td>
+								<td>${e.employeeName}</td>
+								<td>
+									<button class="btn btn-sm btn-primary rvBtn" type="button" value="${e.employeeNo}">삭제</button>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</form>
 			<!-- 페이징 -->
 			<div class="d-flex justify-content-center">
 				<ul class="pagination">
@@ -83,10 +87,19 @@
 				</form>
 			</div>
 		</div>
-		
 		<script>
 			$(function() {
+				
+				$('.rvBtn').click(function() {
+					let ans = confirm('삭제 하시겠습니까?');
+				 	if(ans) {
+						$('input[name=employeeNo]').val($(this).val());
+						$('#rvForm').submit();
+				 	}
+				});
+				
 				$('input[name=searchWord]').keyup(function() {
+					console.log('1')
 					$.ajax({
 						url : '${pageContext.request.contextPath}/employee/searchEmployeeList',
 						type : 'get',
@@ -106,6 +119,7 @@
 						}
 					});
 				});
+				
 			});
 		</script>
 	</body>

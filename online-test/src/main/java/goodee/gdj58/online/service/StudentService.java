@@ -39,6 +39,12 @@ public class StudentService {
 	
 	// 학생 삭제
 	public int removeStudent(int studentNo) {
+		String removeStudentCk = studentMapper.selectStudentByPaper(studentNo);
+		
+		// 제출한 답안지가 존재하면 -1
+		if(removeStudentCk != null) {
+			return -1;
+		}
 		return studentMapper.deleteStudent(studentNo);
 	}
 	

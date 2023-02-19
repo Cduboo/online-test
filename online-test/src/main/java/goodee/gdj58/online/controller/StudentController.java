@@ -46,7 +46,7 @@ public class StudentController {
 		if(resultStudent == null) {
 			log.debug(logRed + "로그인 실패");
 			re.addFlashAttribute("msg", "LOGIN_ERROR");
-			return "redirect:/loginStudent";
+			return "redirect:/home";
 		}
 		
 		log.debug(logRed + "로그인 성공");
@@ -128,15 +128,20 @@ public class StudentController {
 	}
 						
 	// 학생 삭제
-	@GetMapping("/employee/student/removeStudent")
-	public String removeStudent(@RequestParam(value = "studentNo", defaultValue = "0") int studentNo) {
+	@PostMapping("/employee/student/removeStudent")
+	public String removeStudent(@RequestParam(value = "studentNo", defaultValue = "0") int studentNo
+									, RedirectAttributes re) {
 		log.debug(logRed + "removeStudent Action");
 		
 		int row = studentService.removeStudent(studentNo);
 		
 		if(row == 1) {
 			log.debug(logRed + "학생 삭제 성공");
-		} else {
+		} else if (row == -1) {
+			re.addFlashAttribute("msg", "REMOVE_ERROR");
+			log.debug(logRed + "학생 삭제 불가 : 제출한 답안지 존재");
+		} 
+		else {
 			log.debug(logRed + "학생 삭제 실패");
 		}
 		

@@ -18,24 +18,29 @@
 			<div class="d-flex justify-content-end mb-3">
 				<a class="btn btn-primary" href="${pageContext.request.contextPath}/employee/student/addStudent">학생 등록</a>
 			</div>
-			<table id="table" class="table table-hover text-center">
-				<thead>
-					<tr class="table-secondary">
-						<th>아이디</th>
-						<th>이름</th>
-						<th style="width: 10%">삭제</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="s" items="${studentList}">
-						<tr>
-							<td>${s.studentId}</td>
-							<td>${s.studentName}</td>
-							<td><a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/employee/student/removeStudent?studentNo=${s.studentNo}">삭제</a></td>
+			<form id="rvForm" action="${pageContext.request.contextPath}/employee/student/removeStudent" method="post">
+				<input type="hidden" name="studentNo" value="0">
+				<table id="table" class="table table-hover text-center">
+					<thead>
+						<tr class="table-secondary">
+							<th>아이디</th>
+							<th>이름</th>
+							<th style="width: 10%">삭제</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<c:forEach var="s" items="${studentList}">
+							<tr>
+								<td>${s.studentId}</td>
+								<td>${s.studentName}</td>
+								<td>
+									<button class="btn btn-sm btn-primary rvBtn" type="button" value="${s.studentNo}">삭제</button>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</form>
 			<!-- 페이징 -->
 			<div class="d-flex justify-content-center">
 				<ul class="pagination">
@@ -85,6 +90,20 @@
 		
 		<script>
 			$(function() {
+				
+				let msg = '${msg}';
+				if(msg == 'REMOVE_ERROR') {
+					alert('해당 학생은 제출한 답안지가 존재합니다.');
+				}
+				
+				$('.rvBtn').click(function() {
+					let ans = confirm('삭제 하시겠습니까?');
+					if(ans) {
+						$('input[name=studentNo]').val($(this).val());
+						$('#rvForm').submit();
+					}
+				});
+				
 				$('input[name=searchWord]').keyup(function() {
 					$.ajax({
 						url : '${pageContext.request.contextPath}/employee/searchStudentList',

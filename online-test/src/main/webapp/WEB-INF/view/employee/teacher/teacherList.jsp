@@ -18,24 +18,29 @@
 			<div class="d-flex justify-content-end mb-3">
 				<a class="btn btn-primary" href="${pageContext.request.contextPath}/employee/teacher/addTeacher">강사 등록</a>
 			</div>
-			<table id="table" class="table table-hover text-center">
-				<thead>
-					<tr class="table-secondary">
-						<th>아이디</th>
-						<th>이름</th>
-						<th style="width: 10%">삭제</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="t" items="${teacherList}">
-						<tr>
-							<td>${t.teacherId}</td>
-							<td>${t.teacherName}</td>
-							<td><a class="btn btn-primary btn-sm" href="${pageContext.request.contextPath}/employee/teacher/removeTeacher?teacherNo=${t.teacherNo}">삭제</a></td>
+			<form id="rvForm" action="${pageContext.request.contextPath}/employee/teacher/removeTeacher" method="post">
+				<input type="hidden" name="teacherNo" value="0">
+				<table id="table" class="table table-hover text-center">
+					<thead>
+						<tr class="table-secondary">
+							<th>아이디</th>
+							<th>이름</th>
+							<th style="width: 10%">삭제</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<c:forEach var="t" items="${teacherList}">
+							<tr>
+								<td>${t.teacherId}</td>
+								<td>${t.teacherName}</td>
+								<td>
+									<button class="btn btn-sm btn-primary rvBtn" type="button" value="${t.teacherNo}">삭제</button>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</form>
 			<!-- 페이징 -->
 			<div class="d-flex justify-content-center">
 				<ul class="pagination">
@@ -85,6 +90,20 @@
 		
 		<script>
 			$(function() {
+				
+				let msg = '${msg}';
+				if(msg == 'REMOVE_ERROR') {
+					alert('해당 강사는 등록한 시험이 존재합니다.');
+				}
+				
+				$('.rvBtn').click(function() {
+					let ans = confirm('삭제 하시겠습니까?');
+					if(ans) {
+						$('input[name=teacherNo]').val($(this).val());
+						$('#rvForm').submit();
+					}
+				});
+				
 				$('input[name=searchWord]').keyup(function() {
 					$.ajax({
 						url : '${pageContext.request.contextPath}/employee/searchTeacherList',
@@ -105,6 +124,7 @@
 						}
 					});
 				});
+				
 			});
 		</script>
 	</body>

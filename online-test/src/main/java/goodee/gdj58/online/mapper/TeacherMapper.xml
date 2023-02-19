@@ -32,6 +32,15 @@
 		DELETE FROM teacher WHERE teacher_no = #{teacherNo}
 	</delete>
 	
+	<!-- 시험 등록한 강사 검색 -->
+	<select id="selectTeacherByTest" parameterType="int" resultType="String">
+		SELECT tc.teacher_no 
+		FROM teacher tc
+			JOIN test ts ON tc.teacher_no = ts.teacher_no
+		WHERE tc.teacher_no = #{teacherNo}
+		GROUP BY tc.teacher_no
+	</select>
+	
 	<!-- 강사 목록 -->
 	<select id="selectTeacherList" parameterType="java.util.Map" resultType="goodee.gdj58.online.vo.Teacher">
 		SELECT

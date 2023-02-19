@@ -13,6 +13,7 @@ public interface StudentMapper {
 	int modifyStudentPw(Map<String, Object> paraMap);
 	int insertStudent(Student student);
 	int deleteStudent(int studentNo);
+	String selectStudentByPaper(int studentNo);
 	List<Student> selectStudentList(Map<String, Object> paramMap);
 	int selectStudentCount(String searchWord);
 }

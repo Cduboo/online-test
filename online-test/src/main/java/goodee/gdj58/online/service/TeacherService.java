@@ -39,6 +39,13 @@ public class TeacherService {
 	
 	// 강사 삭제
 	public int removeTeacher(int teacherNo) {
+		String removeTeacherCk = teacherMapper.selectTeacherByTest(teacherNo);
+		
+		// 등록한 시험이 존재하면 -1
+		if(removeTeacherCk != null) {
+			return -1;
+		}
+		
 		return teacherMapper.deleteTeacher(teacherNo);
 	}
 	

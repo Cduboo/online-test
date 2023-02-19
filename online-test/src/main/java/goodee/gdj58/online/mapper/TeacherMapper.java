@@ -13,6 +13,7 @@ public interface TeacherMapper {
 	int modifyTeacherPw(Map<String, Object> paraMap);
 	int insertTeacher(Teacher teacher);
 	int deleteTeacher(int teacherNo);
+	String selectTeacherByTest(int teacherNo);
 	List<Teacher> selectTeacherList(Map<String, Object> paramMap);
 	int selectTeacherCount(String searchWord);
 }

@@ -76,7 +76,7 @@ public class EmployeeController {
 		if(resultEmployee == null) {
 			log.debug(logRed + "로그인 실패");
 			re.addFlashAttribute("msg", "LOGIN_ERROR");
-			return "redirect:/loginEmployee";
+			return "redirect:/home";
 		}
 		
 		session.setAttribute("loginEmployee", resultEmployee);
@@ -96,7 +96,7 @@ public class EmployeeController {
 	}
 	
 	// 직원 삭제
-	@GetMapping("/employee/removeEmployee")
+	@PostMapping("/employee/removeEmployee")
 	public String removeEmployee(@RequestParam("employeeNo") int employeeNo) {
 		log.debug(logRed + "removeEmployee Action");
 		

@@ -46,7 +46,7 @@ public class TeacherController {
 		if(resultTeacher == null) {
 			log.debug(logRed + "로그인 실패");
 			re.addFlashAttribute("msg", "LOGIN_ERROR");
-			return "redirect:/loginTeacher";
+			return "redirect:/home";
 		}
 		
 		log.debug(logRed + "로그인 성공");
@@ -128,14 +128,18 @@ public class TeacherController {
 	}
 	
 	// 강사 삭제
-	@GetMapping("/employee/teacher/removeTeacher")
-	public String removeTeacher(@RequestParam(value = "teacherNo", defaultValue = "0") int teacherNo) {
+	@PostMapping("/employee/teacher/removeTeacher")
+	public String removeTeacher(@RequestParam(value = "teacherNo", defaultValue = "0") int teacherNo
+									, RedirectAttributes re) {
 		log.debug(logRed + "removeTeacher Action");
 		
 		int row = teacherService.removeTeacher(teacherNo);
 		
 		if(row == 1) {
 			log.debug(logRed + "강사 삭제 성공");
+		} else if(row == -1) {
+			re.addFlashAttribute("msg", "REMOVE_ERROR");
+			log.debug(logRed + "강사 삭제 불가 : 등록된 시험 존재");
 		} else {
 			log.debug(logRed + "강사 삭제 실패");
 		}

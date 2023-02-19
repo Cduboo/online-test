@@ -32,6 +32,15 @@
 		DELETE FROM student WHERE student_no = #{studentNo}
 	</delete>
 	
+	<!-- 답안지 제출한 학생 검색 -->
+	<select id="selectStudentByPaper" parameterType="int" resultType="String">
+		SELECT s.student_no 
+		FROM student s 
+			JOIN paper p ON s.student_no = p.student_no
+		WHERE s.student_no = #{studentNo}
+		GROUP BY s.student_no
+	</select>
+	
 	<!-- 학생 목록 -->
 	<select id="selectStudentList" parameterType="java.util.Map" resultType="goodee.gdj58.online.vo.Student">
 		SELECT
