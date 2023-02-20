@@ -52,7 +52,7 @@ public class StudentController {
 		log.debug(logRed + "로그인 성공");
 		session.setAttribute("loginStudent", resultStudent);
 		
-		return "redirect:/student/studentMain";
+		return "redirect:/student/test/testList";
 	}
 	
 	// 학생 로그아웃

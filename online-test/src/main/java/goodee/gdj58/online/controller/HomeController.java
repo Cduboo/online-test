@@ -22,10 +22,10 @@ public class HomeController {
 		}
 		
 		if(session.getAttribute("loginTeacher") != null) {
-			return "redirect:/teacher/teacherMain";
+			return "redirect:/teacher/test/testList";
 		}
 		if(session.getAttribute("loginStudent") != null) {
-			return "redirect:/student/studentMain";
+			return "redirect:/student/test/testList";
 		}
 		
 		return "/login";

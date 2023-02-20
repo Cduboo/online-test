@@ -52,7 +52,7 @@ public class TeacherController {
 		log.debug(logRed + "로그인 성공");
 		session.setAttribute("loginTeacher", resultTeacher);
 		
-		return "redirect:/teacher/teacherMain";
+		return "redirect:/teacher/test/testList";
 	}
 	
 	// 강사 로그아웃
