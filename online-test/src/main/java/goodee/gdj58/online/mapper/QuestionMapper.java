@@ -9,6 +9,7 @@ import goodee.gdj58.online.vo.Question;
 
 @Mapper
 public interface QuestionMapper {
+	int selectTeacherCkByQuestion(Map<String, Object> paramMap);
 	int updateQuestion(Question question);
 	int deleteQuestion(int questionNo);
 	int selectMaxQuestionNo();

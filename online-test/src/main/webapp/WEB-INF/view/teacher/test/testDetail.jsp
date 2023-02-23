@@ -74,7 +74,6 @@
 			<div class="container">
 				<form action="${pageContext.request.contextPath}/teacher/test/modifyTest" method="post">			
 					<input type="hidden" name="testNo" value="${testOne.testNo}">
-					<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}">
 					<h3>시험 정보 등록</h3>
 					<table class="table table-bordered text-center align-middle">
 						<tr>
@@ -209,6 +208,8 @@
 												<span class="float-end"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></span>
 											</div>
 											<form action="${pageContext.request.contextPath}/teacher/test/removeQuestion" method="post">
+												<input type="hidden" name="questionNo" value="${q.questionNo}">
+												<input type="hidden" name="testNo" value="${q.testNo}">
 												<div class="d-grid gap-2">
 													<button class="btn btn-sm btn-danger float-end mt-3" type="submit">문제 삭제</button>
 												</div>
@@ -331,8 +332,21 @@
 				if(msg == 'MODIFY_SUCCESS') {
 					alert('수정 완료');
 				}
+				if(msg == 'MODIFY_AUTH_ERROR') {
+					alert('해당 권한이 없습니다.');
+				}
 				if(msg == 'MODIFY_ERROR') {
 					alert('수정 실패');
+				}
+				
+				if(msg == 'DELETE_SUCCESS') {
+					alert('삭제 성공');
+				}
+				if(msg == 'DELETE_AUTH_ERROR') {
+					alert('해당 권한이 없습니다.');
+				}
+				if(msg == 'DELETE_ERROR') {
+					alert('삭제 실패');
 				}
 			});
 		</script>

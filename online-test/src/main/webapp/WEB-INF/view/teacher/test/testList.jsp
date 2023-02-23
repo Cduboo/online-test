@@ -35,7 +35,6 @@
 									<span class="float-end"><button type="button" class="btn-close" data-bs-dismiss="modal"></button></span>
 								</div>
 								<form class="form form-horizontal p-4" action="${pageContext.request.contextPath}/teacher/test/addTest" method="post">
-									<input type="hidden" name="teacherNo" value="${loginTeacher.teacherNo}" required="required">
 									<table class="table table-bordered">
 										<tr>
 											<th class="text-bg-light">시험명</th>

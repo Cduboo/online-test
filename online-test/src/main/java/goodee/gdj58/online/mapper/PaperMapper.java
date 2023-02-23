@@ -9,6 +9,7 @@ import goodee.gdj58.online.vo.Paper;
 
 @Mapper
 public interface PaperMapper {
+	int selectPaperCkByStudent(Map<String, Object> paramMap);
 	List<Map<String, Object>> selectTestResult(Map<String, Object> paramMap);
 	List<Integer> selectTestCheck(int studentNo);
 	int insertPaper(Paper paramPaper);

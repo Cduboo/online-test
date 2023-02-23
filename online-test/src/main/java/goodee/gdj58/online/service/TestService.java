@@ -26,7 +26,8 @@ public class TestService {
 	}
 	
 	// 시험 수정
-	public int modifyTest(Test test) {
+	public int modifyTest(Test test, int teacherNo) {
+		test.setTeacherNo(teacherNo);
 		return testMapper.updateTest(test);
 	}
 	
@@ -40,7 +41,8 @@ public class TestService {
 	}
 	
 	// 시험 등록
-	public int addTest(Test test) {
+	public int addTest(Test test, int teacherNo) {
+		test.setTeacherNo(teacherNo);
 		return testMapper.insertTest(test);
 	}
 	

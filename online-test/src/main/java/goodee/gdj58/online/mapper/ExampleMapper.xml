@@ -11,7 +11,7 @@
 	
 	<!-- 보기 삭제 -->
 	<delete id="deleteExample" parameterType="int">
-		DELETE FROM example WHERE example_no = #{exampleNo}
+		DELETE FROM example WHERE question_no = #{questionNo}
 	</delete>
 	
 	<!-- 보기 입력 -->

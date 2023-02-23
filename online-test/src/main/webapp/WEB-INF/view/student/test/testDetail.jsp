@@ -20,7 +20,6 @@
 			<div class="container bg-white p-5" style="column-count:2; gap: 100px; column-rule: 1px solid #ced4da;">
 				<h1 class="mt-5">시험지</h1>
 				<form action="${pageContext.request.contextPath}/student/test/addPaper" method="post">
-					<input type="hidden" name="studentNo" value="${loginStudent.studentNo}">
 						<c:forEach var="q" items="${questionList}">
 							<c:if test="${q.exampleIdx == 1 || q.exampleIdx == null}">
 								<input type="hidden" name="testNo" value="${q.testNo}">

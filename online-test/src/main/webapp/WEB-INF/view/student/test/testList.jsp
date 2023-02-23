@@ -47,7 +47,7 @@
 								</c:if>
 								<c:if test="${t.testCk == null}">
 									<c:if test="${today >= t.startDate && today <= t.endDate}">
-										<form action="${pageContext.request.contextPath}/student/test/testDetail" method="post">
+										<form action="${pageContext.request.contextPath}/student/test/testDetail" method="GET">
 											<input type="hidden" name="testNo" value="${t.testNo}">
 											<button type="submit">시험 응시</button>
 										</form>

@@ -42,16 +42,17 @@ public class PaperController {
 	
 	// 답안지 저장
 	@PostMapping("/student/test/addPaper")
-	public String addPaper(@RequestParam(value = "questionNo") int[] questionNo
-								, @RequestParam(value = "studentNo") int studentNo
+	public String addPaper(HttpSession session
+								, @RequestParam(value = "questionNo") int[] questionNo
 								, @RequestParam(value = "answer") int[] answer
 								, @RequestParam(value = "testNo") int testNo
 								) {
 		log.debug(logRed + "addPaper Action");
 		log.debug(logRed + "questionNo : " + questionNo);
-		log.debug(logRed + "studentNo : " + studentNo);
 		log.debug(logRed + "answer : " + answer);
 		
+		Student loginStudent = (Student)session.getAttribute("loginStudent");
+		int studentNo = loginStudent.getStudentNo();
 		int row = paperService.addPaper(questionNo, studentNo, answer);
 		
 		if(row == 0) {

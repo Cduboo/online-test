@@ -41,10 +41,14 @@ public class TestController {
 	}
 	
 	@PostMapping("/teacher/test/modifyTest")
-	public String modifyTest(RedirectAttributes re , Test test) {
+	public String modifyTest(HttpSession session, RedirectAttributes re 
+								, Test test) {
 		log.debug(logRed + "modifyTest Action");
 		
-		int row = testService.modifyTest(test);
+		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
+		int teacherNo = loginTeacher.getTeacherNo();
+		
+		int row = testService.modifyTest(test, teacherNo);
 		if(row != 1) {
 			re.addFlashAttribute("msg", "MODIFY_ERROR");
 		} else {
@@ -70,16 +74,18 @@ public class TestController {
 		return "redirect:/teacher/test/testList";
 	}
 	
+	// 시험 등록
 	@PostMapping("/teacher/test/addTest")
-	public String addTest(RedirectAttributes re, Test test) {
+	public String addTest(HttpSession session, RedirectAttributes re, Test test) {
 		log.debug(logRed + "addTest Action");
 		log.debug(logRed + "testTitle : " + test.testTitle);
 		log.debug(logRed + "testMemo : " + test.testMemo);
 		log.debug(logRed + "startDate : " + test.startDate);
 		log.debug(logRed + "endDate : " + test.endDate);
-		log.debug(logRed + "teacherNo : " + test.teacherNo);
 		
-		int row = testService.addTest(test);
+		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
+		int teacherNo = loginTeacher.getTeacherNo();
+		int row = testService.addTest(test, teacherNo);
 		
 		if(row != 1) {
 			log.debug(logRed + "시험 등록 실패");
@@ -94,7 +100,7 @@ public class TestController {
 	
 	// 시험 상세(강사)
 	@GetMapping("/teacher/test/testDetail")
-	public String getTestOne(HttpSession session
+	public String getTestOneByTeacher(HttpSession session
 								, Model model
 								, @RequestParam(value = "testNo", defaultValue = "0" ) int testNo) {
 		log.debug(logRed + "testDetail Form");
@@ -103,9 +109,13 @@ public class TestController {
 		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
 		int teacherNo = loginTeacher.getTeacherNo();
 		
-		List<Map<String, Object>> questionList = questionService.getQuestionListByTest(testNo, teacherNo);
+		List<Map<String, Object>> questionList = questionService.getQuestionListOfTestByTeacher(testNo, teacherNo);
 		Map<String, Object> testOne = testService.getTestOne(testNo, teacherNo);
 		
+		if(testOne == null) {
+			log.debug(logRed + "해당 권한 없음");
+			return "redirect:/teacher/test/testList";
+		}
 		model.addAttribute("questionList", questionList);
 		model.addAttribute("testOne", testOne);
 		
@@ -113,13 +123,20 @@ public class TestController {
 	}
 	
 	// 시험 상세(학생)
-	@PostMapping("/student/test/testDetail")
-	public String getTestOne(Model model
-			, @RequestParam(value = "testNo") int testNo) {
+	@GetMapping("/student/test/testDetail")
+	public String getTestOneByStudent(HttpSession session
+										, Model model
+										, @RequestParam(value = "testNo") int testNo) {
 		log.debug(logRed + "testDetail Form");
 		log.debug(logRed + "testNo : " + testNo);
 		
-		List<Map<String, Object>> questionList = questionService.getQuestionListByTest(testNo);
+		Student loginStudent = (Student)session.getAttribute("loginStudent");
+		int studentNo = loginStudent.getStudentNo();
+		List<Map<String, Object>> questionList = questionService.getQuestionListOfTestByStudent(testNo, studentNo);
+		
+		if(questionList == null) {
+			return "redirect:/student/test/testList";
+		}
 		
 		model.addAttribute("questionList", questionList);
 		
