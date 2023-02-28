@@ -33,37 +33,41 @@
 										<c:if test="${q.exampleIdx == 1}">
 											<span style="position: relative;">
 												<label for="${q.questionNo}${q.exampleIdx}" class="radio-label">
-													① ${q.exampleTitle}
+													①
 													<img class="${q.questionNo}" style="display:none; position: absolute; top: -3px; left: -1px;" alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
 												</label>
 												<input style="position: absolute; left: -9999px;" type="radio" name="${q.questionNo}" value="${q.exampleIdx}" id="${q.questionNo}${q.exampleIdx}">
+												<span>${q.exampleTitle}</span>
 											</span>
 										</c:if>
 										<c:if test="${q.exampleIdx == 2}">
 											<span style="position: relative;">
 												<label for="${q.questionNo}${q.exampleIdx}" class="radio-label">
-													② ${q.exampleTitle}
+													②
 													<img class="${q.questionNo}" style="display:none; position: absolute; top: -3px; left: -1px;" alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
 												</label>
 												<input style="position: absolute; left: -9999px;" type="radio" name="${q.questionNo}" value="${q.exampleIdx}" id="${q.questionNo}${q.exampleIdx}">
+												<span>${q.exampleTitle}</span>
 											</span>
 										</c:if>
 										<c:if test="${q.exampleIdx == 3}">
 											<span style="position: relative;">
-											<label for="${q.questionNo}${q.exampleIdx}" class="radio-label">
-												③ ${q.exampleTitle}
-												<img class="${q.questionNo}" style="display:none; position: absolute; top: -3px; left: -1px;" alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
-											</label>
-											<input style="position: absolute; left: -9999px;" type="radio" name="${q.questionNo}" value="${q.exampleIdx}" id="${q.questionNo}${q.exampleIdx}">
+												<label for="${q.questionNo}${q.exampleIdx}" class="radio-label">
+													③
+													<img class="${q.questionNo}" style="display:none; position: absolute; top: -3px; left: -1px;" alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
+												</label>
+												<input style="position: absolute; left: -9999px;" type="radio" name="${q.questionNo}" value="${q.exampleIdx}" id="${q.questionNo}${q.exampleIdx}">
+												<span>${q.exampleTitle}</span>
 											</span>
 										</c:if>
 										<c:if test="${q.exampleIdx == 4}">
 											<span style="position: relative;">
 												<label for="${q.questionNo}${q.exampleIdx}" class="radio-label">
-													④ ${q.exampleTitle}
+													④
 													<img class="${q.questionNo}" style="display:none; position: absolute; top: -3px; left: -1px;" alt="체크" width="20px;" src="${pageContext.request.contextPath}/images/checkmark.jpg">
 												</label>
 												<input style="position: absolute; left: -9999px;" type="radio" name="${q.questionNo}" value="${q.exampleIdx}" id="${q.questionNo}${q.exampleIdx}">
+												<span>${q.exampleTitle}</span>
 											</span>
 										</c:if>
 										<c:if test="${q.exampleIdx == null}">

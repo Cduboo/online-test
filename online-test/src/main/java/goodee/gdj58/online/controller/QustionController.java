@@ -64,13 +64,13 @@ public class QustionController {
 		int teacherNo = loginTeacher.getTeacherNo();
 		int row = questionService.removeQuestion(questionNo, teacherNo);
 		
-		if(row != 1) {
-			log.debug(logRed + "문제 삭제 실패");
-			re.addFlashAttribute("msg", "DELETE_ERROR");
-		} else if(row == -1) { 
+		if(row == -1) { 
 			log.debug(logRed + "해당 권한이 없습니다.");
 			re.addFlashAttribute("msg", "DELETE_AUTH_ERROR");
-		} else {
+		} else if(row == -2){
+			log.debug(logRed + "등록된 보기가 있습니다.");
+			re.addFlashAttribute("msg", "DELETE_ERROR");
+		} else if(row == 1){
 			log.debug(logRed + "문제 삭제 성공");
 			re.addFlashAttribute("msg", "DELETE_SUCCESS");
 		}

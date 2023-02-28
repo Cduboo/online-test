@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="goodee.gdj58.online.mapper.TestMapper">
+	<!-- 시험 문제 개수 확인 -->
+	<select id="selectQuestionCountByTest" parameterType="int" resultType="int">
+		SELECT COUNT(*) count 
+		FROM test t
+			JOIN question q ON t.test_no = q.test_no
+		WHERE t.test_no = #{testNo}
+	</select>
+
+	<!-- 시험자 목록 -->
+	<select id="selectStudentByTest" parameterType="int" resultType="goodee.gdj58.online.vo.Student">
+		SELECT s.student_no studentNo, s.student_name studentName
+		FROM test t
+			JOIN question q ON t.test_no = q.test_no
+			JOIN paper p ON q.question_no = p.question_no
+			JOIN student s ON p.student_no = s.student_no
+		WHERE t.test_no = #{testNo}
+	</select>
+
 	<!-- 월별 시험 개수 -->
 	<select id="selectTestCountOfMonthsInYear" parameterType="int" resultType="java.util.Map">
 		SELECT 

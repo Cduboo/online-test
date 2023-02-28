@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="goodee.gdj58.online.mapper.QuestionMapper">
+	<!-- 문제 보기 개수 확인 -->
+	<select id="selectExampleCountByQuestion" parameterType="int" resultType="int">
+		SELECT COUNT(*) 
+		FROM question q 
+			JOIN example e ON q.question_no = e.question_no
+		WHERE q.question_no = #{questionNo}
+	</select>
+	
 	<!-- 본인 문제 확인 -->
 	<select id="selectTeacherCkByQuestion" parameterType="java.util.Map" resultType="int">
 		SELECT question_no, te.teacher_no

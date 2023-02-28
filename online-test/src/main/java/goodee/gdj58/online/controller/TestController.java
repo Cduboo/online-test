@@ -69,7 +69,13 @@ public class TestController {
 		Teacher loginTeacher = (Teacher)session.getAttribute("loginTeacher");
 		int teacherNo = loginTeacher.getTeacherNo();
 		
-		testService.removeTest(testNo, teacherNo);
+		int row = testService.removeTest(testNo, teacherNo);
+		
+		if(row == 1) {
+			log.debug(logRed + "시험 삭제 성공");
+		} else {
+			log.debug(logRed + "시험 삭제 실패");
+		}
 		
 		return "redirect:/teacher/test/testList";
 	}

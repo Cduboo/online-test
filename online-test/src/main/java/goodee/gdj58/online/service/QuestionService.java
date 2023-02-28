@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import goodee.gdj58.online.mapper.ExampleMapper;
 import goodee.gdj58.online.mapper.PaperMapper;
 import goodee.gdj58.online.mapper.QuestionMapper;
+import goodee.gdj58.online.mapper.TestMapper;
 import goodee.gdj58.online.vo.Example;
 import goodee.gdj58.online.vo.Question;
+import goodee.gdj58.online.vo.Student;
 
 @Service
 @Transactional
@@ -20,6 +22,7 @@ public class QuestionService {
 	@Autowired private QuestionMapper questionMapper;
 	@Autowired private ExampleMapper exampleMapper;
 	@Autowired private PaperMapper paperMapper;
+	@Autowired private TestMapper testMapper;
 	
 	// 문제 수정
 	public int modifyQuestion(Question question,
@@ -60,6 +63,7 @@ public class QuestionService {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("teacherNo", teacherNo);
 		paramMap.put("questionNo", questionNo);
+		
 		// 본인 문제 확인
 		int row = questionMapper.selectTeacherCkByQuestion(paramMap);
 		if(row == 0) {
@@ -69,7 +73,7 @@ public class QuestionService {
 		row = exampleMapper.deleteExample(questionNo);
 		if(row == 0) {
 			return -1;
-		}
+		}			
 		
 		return questionMapper.deleteQuestion(questionNo);
 	}
@@ -82,6 +86,11 @@ public class QuestionService {
 	// 문제 등록
 	public int addQuestion(Question question
 								, int[] exampleIdx, String[] exampleTitle, String exampleOx) {
+		List<Student> map = testMapper.selectStudentByTest(question.getTestNo());
+		if(map != null) {
+			return 0;
+		}
+		
 		int row = questionMapper.insertQuestion(question);
 		
 		if(row == 1) {

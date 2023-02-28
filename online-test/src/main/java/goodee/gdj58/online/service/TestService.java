@@ -33,11 +33,18 @@ public class TestService {
 	
 	// 시험 삭제
 	public int removeTest(int testNo, int teacherNo) {
+		int row = testMapper.selectQuestionCountByTest(testNo);
+		
+		if(row != 0) { // 시험에 등록된 문제가 있다면
+			return -2;
+		}
+		
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("testNo", testNo);
 		paramMap.put("teacherNo", teacherNo);
+		row = testMapper.deleteTest(paramMap);			
 		
-		return testMapper.deleteTest(paramMap);
+		return row;
 	}
 	
 	// 시험 등록

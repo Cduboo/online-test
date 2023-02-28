@@ -20,7 +20,8 @@
 			<h1 class="mt-5">시험 결과</h1>
 			<c:forEach var="tr" items="${testResult}">	
 				<c:if test="${tr.questionIdx == 1}">
-					<div>${tr.testTitle}</div>
+					<h4>${tr.testTitle}</h4>
+					<div class="float-end">내 점수: <code id="myScore" class="p-2"></code></div>
 				</c:if> 
 			</c:forEach>
 			<table class="table table-bordered text-center">
@@ -51,7 +52,13 @@
 					</c:if>
 				</c:forEach>
 			</table>
-			<div>내 점수: ${100/i*j}점</div>
+			<c:set var="score" value="${100/i*j}"/>
+			<input id="score" type="hidden" value="${score}">
 		</div>
+		<script>
+			const score = parseFloat($('#score').val());
+			
+			$('#myScore').text(score.toFixed(2)+'점');
+		</script>
 	</body>
 </html>

@@ -5,10 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import goodee.gdj58.online.vo.Student;
 import goodee.gdj58.online.vo.Test;
 
 @Mapper
 public interface TestMapper {
+	int selectQuestionCountByTest(int testNo);
+	List<Student> selectStudentByTest(int testNo);
 	List<Map<String, Object>> selectTestCountOfMonthsInYear(int year);
 	int selectPaperCountByTest(int testNo);
 	int updateTest(Test test);
