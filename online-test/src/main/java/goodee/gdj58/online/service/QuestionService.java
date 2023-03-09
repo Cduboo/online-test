@@ -14,7 +14,6 @@ import goodee.gdj58.online.mapper.QuestionMapper;
 import goodee.gdj58.online.mapper.TestMapper;
 import goodee.gdj58.online.vo.Example;
 import goodee.gdj58.online.vo.Question;
-import goodee.gdj58.online.vo.Student;
 
 @Service
 @Transactional
@@ -86,12 +85,12 @@ public class QuestionService {
 	// 문제 등록
 	public int addQuestion(Question question
 								, int[] exampleIdx, String[] exampleTitle, String exampleOx) {
-		List<Student> map = testMapper.selectStudentByTest(question.getTestNo());
-		if(map != null) {
-			return 0;
+		int row = testMapper.selectPaperCountByTest(question.getTestNo());
+		if(row != 0) {
+			return -1; // 등록된 답안지 존재
 		}
 		
-		int row = questionMapper.insertQuestion(question);
+		row = questionMapper.insertQuestion(question);
 		
 		if(row == 1) {
 			int questionNo = questionMapper.selectMaxQuestionNo();
@@ -130,7 +129,6 @@ public class QuestionService {
 		
 		// 치룬 시험인지 검사
 		int row = paperMapper.selectPaperCkByStudent(paramMap);
-		System.out.println(row);
 		if(row > 0) {
 			return null;
 		}

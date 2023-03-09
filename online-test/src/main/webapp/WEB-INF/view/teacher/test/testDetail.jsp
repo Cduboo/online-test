@@ -348,6 +348,9 @@
 				if(msg == 'DELETE_ERROR') {
 					alert('삭제 실패');
 				}
+				if(msg == 'ADD_ERROR') {
+					alert('이미 제출한 답안이 존재합니다.');
+				}
 			});
 		</script>
 	</body>

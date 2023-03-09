@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="goodee.gdj58.online.mapper.StudentMapper">
+	<!-- 학생 번호 검색 -->
+	<select id="selectStudentNoById" parameterType="String" resultType="int">
+		SELECT student_no studentNo FROM student WHERE student_id = #{studentId}
+	</select>
+
 	<!-- 직원 메인 화면 -> 최근 학생 -->
 	<select id="selectRecentStudentList" resultType="java.util.Map">
 		SELECT student_id studentId, student_name studentName

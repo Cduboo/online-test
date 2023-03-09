@@ -91,7 +91,8 @@ public class QustionController {
 								, Question question
 								, @RequestParam(value = "exampleIdx") int[] exampleIdx
 								, @RequestParam(value = "exampleTitle") String[] exampleTitle
-								, @RequestParam(value = "exampleOx") String exampleOx) {
+								, @RequestParam(value = "exampleOx") String exampleOx
+								, RedirectAttributes re) {
 		log.debug(logRed + "addQuestion Action");
 		log.debug(logRed + "testNo : " + question.getTestNo());
 		log.debug(logRed + "questionIdx : " + question.getQuestionIdx());
@@ -99,9 +100,11 @@ public class QustionController {
 		
 		int row = questionService.addQuestion(question, exampleIdx, exampleTitle, exampleOx);
 		
-		if(row != 1) {
+		if(row == 0) {
 			log.debug(logRed + "문제/보기 등록 실패");
 			return "redirect:/teacher/test/testDetail?testNo=" + question.getTestNo();
+		} else if(row == -1) {
+			re.addFlashAttribute("msg", "ADD_ERROR");
 		}
 		log.debug(logRed + "문제/보기 등록 성공");
 		

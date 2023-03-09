@@ -25,7 +25,7 @@
 								<input type="hidden" name="testNo" value="${q.testNo}">
 								<input type="hidden" name="questionNo" value="${q.questionNo}">
 								<input id="${q.questionNo}" type="hidden" name="answer" value="0">
-								<div class="fw-bold mt-5 mb-3">${q.questionIdx}. ${q.questionTitle} ${q.questionNo }</div>
+								<div class="fw-bold mt-5 mb-3">${q.questionIdx}. ${q.questionTitle}</div>
 							</c:if>
 							<div>
 								<div>

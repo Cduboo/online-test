@@ -14,8 +14,7 @@ import goodee.gdj58.online.vo.Student;
 @Service
 @Transactional
 public class StudentService {
-	@Autowired
-	private StudentMapper studentMapper;
+	@Autowired private StudentMapper studentMapper;
 	
 	// 학생 로그인
 	public Student login(Student student) {

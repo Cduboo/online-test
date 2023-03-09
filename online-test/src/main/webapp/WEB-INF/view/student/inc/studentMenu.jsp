@@ -21,7 +21,9 @@
 				</c:if>
 				<c:if test="${not empty loginStudent}">
 					<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/student/test/testList">시험 관리</a></li>
-					<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/student/modifyStudentPw">비밀번호 수정</a></li>
+					<c:if test="${empty oauth}">
+						<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/student/modifyStudentPw">비밀번호 수정</a></li>
+					</c:if>
 					<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/student/logout">로그아웃</a></li>
 				</c:if>
 			</ul>

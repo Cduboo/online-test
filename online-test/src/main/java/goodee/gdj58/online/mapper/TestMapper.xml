@@ -18,6 +18,7 @@
 			JOIN paper p ON q.question_no = p.question_no
 			JOIN student s ON p.student_no = s.student_no
 		WHERE t.test_no = #{testNo}
+		GROUP BY t.test_no
 	</select>
 
 	<!-- 월별 시험 개수 -->

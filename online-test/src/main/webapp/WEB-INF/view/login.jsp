@@ -20,12 +20,12 @@
 					<div class="card p-3">
 						<div class="card-body">
 							<ul class="nav nav-tabs" id="myTab" role="tablist">
-								<li class="nav-item" role="presentation"><a class="nav-link active" id="employeeLogin-tab" data-bs-toggle="tab" href="#employeeLogin" role="tab" aria-controls="employeeLogin" aria-selected="true">직원 로그인</a></li>
+								<li class="nav-item" role="presentation"><a class="nav-link active" id="studentLogin-tab" data-bs-toggle="tab" href="#studentLogin" role="tab" aria-controls="studentLogin" aria-selected="true">학생 로그인</a></li>
+								<li class="nav-item" role="presentation"><a class="nav-link" id="employeeLogin-tab" data-bs-toggle="tab" href="#employeeLogin" role="tab" aria-controls="employeeLogin" aria-selected="false">직원 로그인</a></li>
 								<li class="nav-item" role="presentation"><a class="nav-link" id="teacherLogin-tab" data-bs-toggle="tab" href="#teacherLogin" role="tab" aria-controls="teacherLogin" aria-selected="false">강사 로그인</a></li>
-								<li class="nav-item" role="presentation"><a class="nav-link" id="studentLogin-tab" data-bs-toggle="tab" href="#studentLogin" role="tab" aria-controls="studentLogin" aria-selected="false">학생 로그인</a></li>
 							</ul>
 							<div class="tab-content" id="myTabContent">
-								<div class="tab-pane fade show active" id="employeeLogin" role="tabpanel" aria-labelledby="employeeLogin-tab">
+								<div class="tab-pane fade" id="employeeLogin" role="tabpanel" aria-labelledby="employeeLogin-tab">
 									<!-- 직원 로그인 전 -->
 									<c:if test="${empty loginEmployee}">
 										<form id="employeeForm" class="form form-horizontal px-4 mt-5" action="${pageContext.request.contextPath}/loginEmployee" method="post">
@@ -97,7 +97,7 @@
 										</form>
 									</c:if>
 								</div>
-								<div class="tab-pane fade" id="studentLogin" role="tabpanel" aria-labelledby="studentLogin-tab">
+								<div class="tab-pane fade show active" id="studentLogin" role="tabpanel" aria-labelledby="studentLogin-tab">
 									<!-- 학생 로그인 전 -->
 									<c:if test="${empty loginStudent}">
 										<form id="studentForm" class="form form-horizontal px-4 mt-5" action="${pageContext.request.contextPath}/loginStudent" method="post">
@@ -131,6 +131,11 @@
 												</div>
 											</div>
 										</form>
+										<div class="px-4 d-grid gap-2 mt-1">
+											<button type="button" id="kakao" class="btn p-0 m-0">
+												<img src="${pageContext.request.contextPath}/images/kakao_login_medium_wide.png" alt="카카오로그인" style="width: 100%; height: 100%"/>
+											</button>
+										</div>
 									</c:if>
 								</div>
 							</div>
@@ -138,6 +143,7 @@
 					</div>
 				</div>
 			</section>
+			
 		</div>
 		<script>
 			$(function() {
@@ -179,6 +185,14 @@
 				if('${msg}' == 'LOGIN_ERROR') {
 					alert('아이디 또는 비밀번호를 확인해주세요.')
 				}
+				
+				$('#kakao').click(function() {
+					const restApiKey = "5994d10bf46ff448031d3bfa1d7939c1";
+					const redirectUri = "http://localhost:80/online-test/login/kakao";
+					const url = "https://kauth.kakao.com/oauth/authorize?client_id="+ restApiKey +"&redirect_uri="+ redirectUri +"&response_type=code";
+				
+					location.href = url;
+				})
 			});
 		</script>
 	</body>

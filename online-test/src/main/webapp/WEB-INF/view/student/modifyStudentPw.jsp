@@ -23,7 +23,7 @@
 						<div class="card-body">
 							<h1 class="mt-3">비밀번호 수정</h1>
 							<span class="text-danger">${errorMsg}</span>
-							<form class="form form-horizontal px-4 mt-5" action="${pageContext.request.contextPath}/student/modifyStudentPw" method="post">
+							<form id="modifyPwForm" class="form form-horizontal px-4 mt-5" action="${pageContext.request.contextPath}/student/modifyStudentPw" method="post">
 								<table class="table table-hover mt-3">
 									<tr>
 										<td>비밀번호</td>
@@ -35,7 +35,7 @@
 									</tr>
 								</table>
 								<div class="d-grid gap-2">
-									<button class="btn btn-lg btn-primary" type="submit">수정</button>
+									<button class="btn btn-lg btn-primary" id="modifyPwBtn" type="button">수정</button>
 								</div>
 							</form>
 						</div>			
@@ -43,5 +43,18 @@
 				</div>
 			</section>
 		</div>
+		<script>			
+			$('#modifyPwBtn').click(function() {
+				if($('input[name=oldPw]').val() < 1) {
+					alert('비밀번호를 입력해주세요.')
+					return
+				}
+				if($('input[name=newPw]').val() < 1) {
+					alert('비밀번호를 입력해주세요.')
+					return
+				}
+				$('#modifyPwForm').submit();
+			})
+		</script>
 	</body>
 </html>
