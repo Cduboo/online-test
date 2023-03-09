@@ -40,6 +40,7 @@ Spring MVC, filter, REST와 Ajax 등을 공부하며 적용해본 프로젝트�
   - 비밀번호 수정
 
 - 학생
+  - OAuth 소셜 로그인
   - 시험 응시
   - 답안 제출
   - 점수 확인
